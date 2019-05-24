@@ -185,8 +185,9 @@ public class HeanbianEmailMessageClient {
 	/**
 	 * @param mimeMessage {@link #mimeMessage}
 	 */
-	public void setMimeMessage(MimeMessage mimeMessage) {
+	public HeanbianEmailMessageClient setMimeMessage(MimeMessage mimeMessage) {
 		this.mimeMessage = mimeMessage;
+		return this;
 	}
 
 	/**
@@ -199,8 +200,9 @@ public class HeanbianEmailMessageClient {
 	/**
 	 * @param session {@link #session}
 	 */
-	public void setSession(Session session) {
+	public HeanbianEmailMessageClient setSession(Session session) {
 		this.session = session;
+		return this;
 	}
 
 	/**
