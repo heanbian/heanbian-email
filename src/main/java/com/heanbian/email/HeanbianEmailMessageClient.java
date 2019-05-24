@@ -70,7 +70,7 @@ public class HeanbianEmailMessageClient {
 	 * @param toAddress 接收人
 	 * @param content   正文内容
 	 * @return MimeMessage 返回结果
-	 * @throws Exception
+	 * @throws Exception 异常
 	 */
 	public MimeMessage send(String subject, List<String> toAddress, String content) throws Exception {
 		return send(new HeanbianEmailMessage(subject, toAddress, content));
@@ -83,7 +83,7 @@ public class HeanbianEmailMessageClient {
 	 * @param toAddress 接收人
 	 * @param content   正文内容
 	 * @return MimeMessage 返回结果
-	 * @throws Exception
+	 * @throws Exception 异常
 	 */
 	public MimeMessage send(String subject, String toAddress, String content) throws Exception {
 		return send(new HeanbianEmailMessage(subject, toAddress, content));
