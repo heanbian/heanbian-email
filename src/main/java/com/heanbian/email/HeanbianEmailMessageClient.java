@@ -2,6 +2,7 @@ package com.heanbian.email;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -60,6 +61,32 @@ public class HeanbianEmailMessageClient {
 			this._email_regex = _email_regex;
 		}
 		return send(message);
+	}
+
+	/**
+	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
+	 * 
+	 * @param subject   主题
+	 * @param toAddress 接收人
+	 * @param content   正文内容
+	 * @return MimeMessage 返回结果
+	 * @throws Exception
+	 */
+	public MimeMessage send(String subject, List<String> toAddress, String content) throws Exception {
+		return send(new HeanbianEmailMessage(subject, toAddress, content));
+	}
+
+	/**
+	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
+	 * 
+	 * @param subject   主题
+	 * @param toAddress 接收人
+	 * @param content   正文内容
+	 * @return MimeMessage 返回结果
+	 * @throws Exception
+	 */
+	public MimeMessage send(String subject, String toAddress, String content) throws Exception {
+		return send(new HeanbianEmailMessage(subject, toAddress, content));
 	}
 
 	/**
