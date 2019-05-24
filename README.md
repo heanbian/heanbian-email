@@ -4,6 +4,7 @@
 1.maven依赖
 	
 <dependencies>
+
 	<dependency>
 		<groupId>com.heanbian</groupId>
 		<artifactId>heanbian-email</artifactId>

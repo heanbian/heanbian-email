@@ -104,6 +104,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param subject {@link #subject}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setSubject(String subject) {
 		this.subject = subject;
@@ -119,6 +120,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param toAddress {@link #toAddress}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setToAddress(List<String> toAddress) {
 		this.toAddress = toAddress;
@@ -134,6 +136,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param ccAddress {@link #ccAddress}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setCcAddress(List<String> ccAddress) {
 		this.ccAddress = ccAddress;
@@ -149,6 +152,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param bccAddress {@link #bccAddress}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setBccAddress(List<String> bccAddress) {
 		this.bccAddress = bccAddress;
@@ -164,6 +168,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param attachments {@link #attachments}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setAttachments(List<String> attachments) {
 		this.attachments = attachments;
@@ -179,6 +184,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param files {@link #files}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setFiles(List<File> files) {
 		this.files = files;
@@ -194,6 +200,7 @@ public class HeanbianEmailMessage {
 
 	/**
 	 * @param content {@link #content}
+	 * @return this
 	 */
 	public HeanbianEmailMessage setContent(String content) {
 		this.content = content;

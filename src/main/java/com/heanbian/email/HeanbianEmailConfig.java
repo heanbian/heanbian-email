@@ -70,6 +70,7 @@ public class HeanbianEmailConfig {
 
 	/**
 	 * @param host {@link #host}
+	 * @return this
 	 */
 	public HeanbianEmailConfig setHost(String host) {
 		this.host = host;
@@ -85,6 +86,7 @@ public class HeanbianEmailConfig {
 
 	/**
 	 * @param port {@link #port}
+	 * @return this
 	 */
 	public HeanbianEmailConfig setPort(int port) {
 		this.port = port;
@@ -100,6 +102,7 @@ public class HeanbianEmailConfig {
 
 	/**
 	 * @param username {@link #username}
+	 * @return this
 	 */
 	public HeanbianEmailConfig setUsername(String username) {
 		this.username = username;
@@ -115,6 +118,7 @@ public class HeanbianEmailConfig {
 
 	/**
 	 * @param password {@link #password}
+	 * @return this
 	 */
 	public HeanbianEmailConfig setPassword(String password) {
 		this.password = password;
@@ -130,6 +134,7 @@ public class HeanbianEmailConfig {
 
 	/**
 	 * @param from {@link #from}
+	 * @return this
 	 */
 	public HeanbianEmailConfig setFrom(String from) {
 		this.from = from;
@@ -145,6 +150,7 @@ public class HeanbianEmailConfig {
 
 	/**
 	 * @param debug {@link #debug}
+	 * @return this
 	 */
 	public HeanbianEmailConfig setDebug(boolean debug) {
 		this.debug = debug;

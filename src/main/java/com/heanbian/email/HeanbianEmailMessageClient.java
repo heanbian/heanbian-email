@@ -30,6 +30,9 @@ import javax.mail.internet.MimeUtility;
  */
 public class HeanbianEmailMessageClient {
 
+	/**
+	 * 默认正则表达式
+	 */
 	private static final String DEFAULT_EMAIL_REGEX = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
 	private MimeMessage mimeMessage;
 	private Session session;
@@ -37,7 +40,7 @@ public class HeanbianEmailMessageClient {
 	private HeanbianEmailConfig config;
 
 	/**
-	 * {@link #com.heanbian.email.HeanbianEmailConfig}
+	 * @param config 邮件配置
 	 */
 	public HeanbianEmailMessageClient(HeanbianEmailConfig config) {
 		this.config = config;
@@ -45,11 +48,11 @@ public class HeanbianEmailMessageClient {
 	}
 
 	/**
-	 * 发送邮件
+	 * 发送邮件方法，使用自定义正则表达式
 	 * 
-	 * @param message      {@link #com.heanbian.email.HeanbianEmailMessage}
+	 * @param message      消息体
 	 * @param _email_regex 验证邮件正则表达式
-	 * @return MimeMessage
+	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(HeanbianEmailMessage message, String _email_regex) throws Exception {
@@ -60,10 +63,10 @@ public class HeanbianEmailMessageClient {
 	}
 
 	/**
-	 * 发送邮件
+	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
 	 * 
-	 * @param message {@link #com.heanbian.email.HeanbianEmailMessage}
-	 * @return MimeMessage
+	 * @param message 消息体
+	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(HeanbianEmailMessage message) throws Exception {
@@ -150,7 +153,7 @@ public class HeanbianEmailMessageClient {
 	/**
 	 * 初始化Mail Session
 	 * 
-	 * @param config {@link #config}
+	 * @param config 邮件配置
 	 * @return Mail Session
 	 */
 	private static Session initSession(HeanbianEmailConfig config) {
@@ -184,6 +187,7 @@ public class HeanbianEmailMessageClient {
 
 	/**
 	 * @param mimeMessage {@link #mimeMessage}
+	 * @return this
 	 */
 	public HeanbianEmailMessageClient setMimeMessage(MimeMessage mimeMessage) {
 		this.mimeMessage = mimeMessage;
@@ -199,6 +203,7 @@ public class HeanbianEmailMessageClient {
 
 	/**
 	 * @param session {@link #session}
+	 * @return this
 	 */
 	public HeanbianEmailMessageClient setSession(Session session) {
 		this.session = session;
