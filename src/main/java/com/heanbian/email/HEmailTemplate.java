@@ -29,7 +29,7 @@ import javax.mail.internet.MimeUtility;
  * @since 1.0
  * @version 1.0
  */
-public class HeanbianEmailMessageClient {
+public class HEmailTemplate {
 
 	/**
 	 * 默认正则表达式
@@ -38,12 +38,12 @@ public class HeanbianEmailMessageClient {
 	private MimeMessage mimeMessage;
 	private Session session;
 	private String _email_regex;
-	private HeanbianEmailConfig config;
+	private HEmailConfig config;
 
 	/**
 	 * @param config 邮件配置
 	 */
-	public HeanbianEmailMessageClient(HeanbianEmailConfig config) {
+	public HEmailTemplate(HEmailConfig config) {
 		this.config = config;
 		this._email_regex = DEFAULT_EMAIL_REGEX;
 	}
@@ -56,7 +56,7 @@ public class HeanbianEmailMessageClient {
 	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
-	public MimeMessage send(HeanbianEmailMessage message, String _email_regex) throws Exception {
+	public MimeMessage send(HEmailMessage message, String _email_regex) throws Exception {
 		if (_email_regex != null) {
 			this._email_regex = _email_regex;
 		}
@@ -73,7 +73,7 @@ public class HeanbianEmailMessageClient {
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(String subject, List<String> toAddress, String content) throws Exception {
-		return send(new HeanbianEmailMessage(subject, toAddress, content));
+		return send(new HEmailMessage(subject, toAddress, content));
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class HeanbianEmailMessageClient {
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(String subject, String toAddress, String content) throws Exception {
-		return send(new HeanbianEmailMessage(subject, toAddress, content));
+		return send(new HEmailMessage(subject, toAddress, content));
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class HeanbianEmailMessageClient {
 	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
-	public MimeMessage send(HeanbianEmailMessage message) throws Exception {
+	public MimeMessage send(HEmailMessage message) throws Exception {
 		if (session == null) {
 			session = initSession(config);
 			session.setDebug(config.isDebug());
@@ -113,20 +113,20 @@ public class HeanbianEmailMessageClient {
 		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
 
 		if (message.getToAddress() == null || message.getToAddress().isEmpty()) {
-			throw new HeanbianEmailException("接收人邮件地址至少一个");
+			throw new HEmailException("接收人邮件地址至少一个");
 		}
 
 		for (String to : message.getToAddress()) {
-			if (to.matches(this._email_regex)) {
-				throw new HeanbianEmailException("接收人邮件地址不合法：" + to);
+			if (!to.matches(this._email_regex)) {
+				throw new HEmailException("接收人邮件地址不合法：" + to);
 			}
 			mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 		}
 
 		if (message.getCcAddress() != null && !message.getCcAddress().isEmpty()) {
 			for (String cc : message.getCcAddress()) {
-				if (cc.matches(this._email_regex)) {
-					throw new HeanbianEmailException("抄送人邮件地址不合法：" + cc);
+				if (!cc.matches(this._email_regex)) {
+					throw new HEmailException("抄送人邮件地址不合法：" + cc);
 				}
 				mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
 			}
@@ -134,8 +134,8 @@ public class HeanbianEmailMessageClient {
 
 		if (message.getBccAddress() != null && !message.getBccAddress().isEmpty()) {
 			for (String bcc : message.getCcAddress()) {
-				if (bcc.matches(this._email_regex)) {
-					throw new HeanbianEmailException("密送人邮件地址不合法：" + bcc);
+				if (!bcc.matches(this._email_regex)) {
+					throw new HEmailException("密送人邮件地址不合法：" + bcc);
 				}
 				mimeMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
 			}
@@ -183,7 +183,7 @@ public class HeanbianEmailMessageClient {
 	 * @param config 邮件配置
 	 * @return Mail Session
 	 */
-	private static Session initSession(HeanbianEmailConfig config) {
+	private static Session initSession(HEmailConfig config) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", config.getHost());
 		props.put("mail.smtp.auth", "true");
@@ -201,7 +201,7 @@ public class HeanbianEmailMessageClient {
 	/**
 	 * @return {@link #config}
 	 */
-	public HeanbianEmailConfig getConfig() {
+	public HEmailConfig getConfig() {
 		return config;
 	}
 
@@ -216,7 +216,7 @@ public class HeanbianEmailMessageClient {
 	 * @param mimeMessage {@link #mimeMessage}
 	 * @return this
 	 */
-	public HeanbianEmailMessageClient setMimeMessage(MimeMessage mimeMessage) {
+	public HEmailTemplate setMimeMessage(MimeMessage mimeMessage) {
 		this.mimeMessage = mimeMessage;
 		return this;
 	}
@@ -232,7 +232,7 @@ public class HeanbianEmailMessageClient {
 	 * @param session {@link #session}
 	 * @return this
 	 */
-	public HeanbianEmailMessageClient setSession(Session session) {
+	public HEmailTemplate setSession(Session session) {
 		this.session = session;
 		return this;
 	}

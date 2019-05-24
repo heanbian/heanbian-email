@@ -8,17 +8,17 @@ package com.heanbian.email;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class HeanbianEmailException extends RuntimeException {
+public class HEmailException extends RuntimeException {
 
-	public HeanbianEmailException() {
+	public HEmailException() {
 		super();
 	}
 
-	public HeanbianEmailException(String message) {
+	public HEmailException(String message) {
 		super(message);
 	}
 
-	public HeanbianEmailException(String message, Throwable cause) {
+	public HEmailException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

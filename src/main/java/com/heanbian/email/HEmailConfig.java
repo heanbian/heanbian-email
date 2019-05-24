@@ -7,7 +7,7 @@ package com.heanbian.email;
  * @since 1.0
  * @version 1.0
  */
-public class HeanbianEmailConfig {
+public class HEmailConfig {
 
 	/**
 	 * 代理邮件主机地址
@@ -39,7 +39,7 @@ public class HeanbianEmailConfig {
 	 */
 	private boolean debug;
 
-	public HeanbianEmailConfig() {
+	public HEmailConfig() {
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class HeanbianEmailConfig {
 	 * @param from     {@link #from}
 	 * @param debug    {@link #debug}
 	 */
-	public HeanbianEmailConfig(String host, int port, String username, String password, String from, boolean debug) {
+	public HEmailConfig(String host, int port, String username, String password, String from, boolean debug) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
@@ -72,7 +72,7 @@ public class HeanbianEmailConfig {
 	 * @param host {@link #host}
 	 * @return this
 	 */
-	public HeanbianEmailConfig setHost(String host) {
+	public HEmailConfig setHost(String host) {
 		this.host = host;
 		return this;
 	}
@@ -88,7 +88,7 @@ public class HeanbianEmailConfig {
 	 * @param port {@link #port}
 	 * @return this
 	 */
-	public HeanbianEmailConfig setPort(int port) {
+	public HEmailConfig setPort(int port) {
 		this.port = port;
 		return this;
 	}
@@ -104,7 +104,7 @@ public class HeanbianEmailConfig {
 	 * @param username {@link #username}
 	 * @return this
 	 */
-	public HeanbianEmailConfig setUsername(String username) {
+	public HEmailConfig setUsername(String username) {
 		this.username = username;
 		return this;
 	}
@@ -120,7 +120,7 @@ public class HeanbianEmailConfig {
 	 * @param password {@link #password}
 	 * @return this
 	 */
-	public HeanbianEmailConfig setPassword(String password) {
+	public HEmailConfig setPassword(String password) {
 		this.password = password;
 		return this;
 	}
@@ -136,7 +136,7 @@ public class HeanbianEmailConfig {
 	 * @param from {@link #from}
 	 * @return this
 	 */
-	public HeanbianEmailConfig setFrom(String from) {
+	public HEmailConfig setFrom(String from) {
 		this.from = from;
 		return this;
 	}
@@ -152,7 +152,7 @@ public class HeanbianEmailConfig {
 	 * @param debug {@link #debug}
 	 * @return this
 	 */
-	public HeanbianEmailConfig setDebug(boolean debug) {
+	public HEmailConfig setDebug(boolean debug) {
 		this.debug = debug;
 		return this;
 	}
