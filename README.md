@@ -7,7 +7,7 @@
 	<dependency>
 		<groupId>com.heanbian</groupId>
 		<artifactId>heanbian-email</artifactId>
-		<version>4.0.0</version>
+		<version>${version}</version>
 	</dependency>
 </dependencies>
 ```
