@@ -102,13 +102,7 @@ public class HEmailTemplate {
 			session.setDebug(config.isDebug());
 		}
 		mimeMessage = new MimeMessage(session);
-
-		if (config.getFrom() == null) {
-			mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getUsername()));
-		} else {
-			mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
-		}
-
+		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
 		mimeMessage.setSubject(message.getSubject());
 		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
 
@@ -141,34 +135,32 @@ public class HEmailTemplate {
 			}
 		}
 
-		MimeBodyPart bodyPart = new MimeBodyPart();
-		bodyPart.setContent(message.getContent(), "text/html;charset=UTF-8");
+		MimeBodyPart mimeBodyPart = new MimeBodyPart();
+		mimeBodyPart.setContent(message.getContent(), "text/html;charset=UTF-8");
 
 		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(bodyPart);
+		multipart.addBodyPart(mimeBodyPart);
 
-		BodyPart attachmentPart = null;
+		BodyPart bodyPart = null;
 		DataSource ds = null;
 
 		if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
 			for (String url : message.getAttachments()) {
-				attachmentPart = new MimeBodyPart();
+				bodyPart = new MimeBodyPart();
 				ds = new URLDataSource(new URL(url));
-
-				attachmentPart.setDataHandler(new DataHandler(ds));
-				attachmentPart.setFileName(MimeUtility.encodeText(ds.getName()));
-				multipart.addBodyPart(attachmentPart);
+				bodyPart.setDataHandler(new DataHandler(ds));
+				bodyPart.setFileName(MimeUtility.encodeText(ds.getName()));
+				multipart.addBodyPart(bodyPart);
 			}
 		}
 
 		if (message.getFiles() != null && !message.getFiles().isEmpty()) {
 			for (File file : message.getFiles()) {
-				attachmentPart = new MimeBodyPart();
+				bodyPart = new MimeBodyPart();
 				ds = new FileDataSource(file);
-
-				attachmentPart.setDataHandler(new DataHandler(ds));
-				attachmentPart.setFileName(MimeUtility.encodeText(ds.getName()));
-				multipart.addBodyPart(attachmentPart);
+				bodyPart.setDataHandler(new DataHandler(ds));
+				bodyPart.setFileName(MimeUtility.encodeText(ds.getName()));
+				multipart.addBodyPart(bodyPart);
 			}
 		}
 
@@ -184,14 +176,14 @@ public class HEmailTemplate {
 	 * @return Mail Session
 	 */
 	private static Session initSession(HEmailConfig config) {
-		Properties props = new Properties();
-		props.put("mail.smtp.host", config.getHost());
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.socketFactory.fallback", "false");
-		props.put("mail.smtp.port", config.getPort());
+		Properties p = new Properties();
+		p.put("mail.smtp.host", config.getHost());
+		p.put("mail.smtp.auth", "true");
+		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		p.put("mail.smtp.socketFactory.fallback", "false");
+		p.put("mail.smtp.port", config.getPort());
 
-		return Session.getDefaultInstance(props, new Authenticator() {
+		return Session.getDefaultInstance(p, new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(config.getUsername(), config.getPassword());
 			}

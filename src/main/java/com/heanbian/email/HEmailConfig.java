@@ -129,7 +129,7 @@ public class HEmailConfig {
 	 * @return {@link #from}
 	 */
 	public String getFrom() {
-		return from;
+		return from != null ? from : username;
 	}
 
 	/**
