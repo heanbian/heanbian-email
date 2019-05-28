@@ -176,7 +176,7 @@ public class HEmailTemplate {
 	 * @param config 邮件配置
 	 * @return Mail Session
 	 */
-	private static Session initSession(HEmailConfig config) {
+	private static final Session initSession(HEmailConfig config) {
 		Properties p = new Properties();
 		p.put("mail.smtp.host", config.getHost());
 		p.put("mail.smtp.auth", "true");
