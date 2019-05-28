@@ -21,4 +21,11 @@ public class HEmailException extends RuntimeException {
 	public HEmailException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
+	public static <T> T requireNonNull(T obj, String message) {
+		if (obj == null) {
+			throw new HEmailException(message);
+		}
+		return obj;
+	}
 }

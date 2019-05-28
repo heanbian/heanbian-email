@@ -11,7 +11,7 @@ import javax.activation.FileDataSource;
 import javax.activation.URLDataSource;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
-import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -44,8 +44,14 @@ public class HEmailTemplate {
 	 * @param config 邮件配置
 	 */
 	public HEmailTemplate(HEmailConfig config) {
+		HEmailException.requireNonNull(config, "config must be not null");
 		this.config = config;
 		this._email_regex = DEFAULT_EMAIL_REGEX;
+		if (session == null) {
+			session = initSession(config);
+			session.setDebug(config.isDebug());
+		}
+		this.mimeMessage = new MimeMessage(session);
 	}
 
 	/**
@@ -97,11 +103,6 @@ public class HEmailTemplate {
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(HEmailMessage message) throws Exception {
-		if (session == null) {
-			session = initSession(config);
-			session.setDebug(config.isDebug());
-		}
-		mimeMessage = new MimeMessage(session);
 		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
 		mimeMessage.setSubject(message.getSubject());
 		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
@@ -114,7 +115,7 @@ public class HEmailTemplate {
 			if (!to.matches(this._email_regex)) {
 				throw new HEmailException("接收人邮件地址不合法：" + to);
 			}
-			mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(to));
 		}
 
 		if (message.getCcAddress() != null && !message.getCcAddress().isEmpty()) {
@@ -122,7 +123,7 @@ public class HEmailTemplate {
 				if (!cc.matches(this._email_regex)) {
 					throw new HEmailException("抄送人邮件地址不合法：" + cc);
 				}
-				mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
+				mimeMessage.addRecipient(RecipientType.CC, new InternetAddress(cc));
 			}
 		}
 
@@ -131,7 +132,7 @@ public class HEmailTemplate {
 				if (!bcc.matches(this._email_regex)) {
 					throw new HEmailException("密送人邮件地址不合法：" + bcc);
 				}
-				mimeMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
+				mimeMessage.addRecipient(RecipientType.BCC, new InternetAddress(bcc));
 			}
 		}
 
