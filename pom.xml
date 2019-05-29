@@ -40,6 +40,11 @@
 		<url>https://github.com/heanbian/heanbian-email</url>
 	</scm>
 
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/heanbian/heanbian-email/issues</url>
+	</issueManagement>
+
 	<properties>
 		<javax.mail.version>1.6.2</javax.mail.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
