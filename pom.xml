@@ -38,11 +38,10 @@
 		<connection>scm:git:https://github.com/heanbian/heanbian-email.git</connection>
 		<developerConnection>scm:git:https://github.com/heanbian/heanbian-email.git</developerConnection>
 		<url>https://github.com/heanbian/heanbian-email</url>
-		<tag>master</tag>
 	</scm>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<javax.mail.version>1.6.2</javax.mail.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -50,7 +49,7 @@
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
-			<version>1.6.2</version>
+			<version>${javax.mail.version}</version>
 		</dependency>
 	</dependencies>
 </project>
