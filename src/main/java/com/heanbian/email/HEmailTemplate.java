@@ -41,6 +41,31 @@ public class HEmailTemplate {
 	private HEmailConfig config;
 
 	/**
+	 * 邮箱正则验证，默认正则
+	 * 
+	 * @since 4.0.2
+	 * @param email 邮箱
+	 * @return 是否符合正则
+	 */
+	public boolean matches(String email) {
+		HEmailException.requireNonNull(email, "email must be not null");
+		return email.matches(DEFAULT_EMAIL_REGEX);
+	}
+
+	/**
+	 * 邮箱正则验证
+	 * 
+	 * @since 4.0.2
+	 * @param email        邮箱
+	 * @param _email_regex 正则
+	 * @return 是否符合正则
+	 */
+	public boolean matches(String email, String _email_regex) {
+		HEmailException.requireNonNull(email, "email must be not null");
+		return email.matches(_email_regex);
+	}
+
+	/**
 	 * @param config 邮件配置
 	 */
 	public HEmailTemplate(HEmailConfig config) {
