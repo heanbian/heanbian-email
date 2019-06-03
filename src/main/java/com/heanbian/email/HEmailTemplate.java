@@ -49,7 +49,7 @@ public class HEmailTemplate {
 	 */
 	public boolean matches(String email) {
 		HEmailException.requireNonNull(email, "email must be not null");
-		return email.matches(DEFAULT_EMAIL_REGEX);
+		return matches(DEFAULT_EMAIL_REGEX);
 	}
 
 	/**
