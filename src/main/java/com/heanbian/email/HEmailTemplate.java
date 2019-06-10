@@ -48,7 +48,7 @@ public class HEmailTemplate {
 	 * @return 是否符合正则
 	 */
 	public boolean matches(String email) {
-		HEmailException.requireNonNull(email, "email must be not null");
+		HEmailException.requireNonNull(email, "email must not be null");
 		return matches(DEFAULT_EMAIL_REGEX);
 	}
 
@@ -61,7 +61,7 @@ public class HEmailTemplate {
 	 * @return 是否符合正则
 	 */
 	public boolean matches(String email, String _email_regex) {
-		HEmailException.requireNonNull(email, "email must be not null");
+		HEmailException.requireNonNull(email, "email must not be null");
 		return email.matches(_email_regex);
 	}
 
@@ -69,7 +69,7 @@ public class HEmailTemplate {
 	 * @param config 邮件配置
 	 */
 	public HEmailTemplate(HEmailConfig config) {
-		HEmailException.requireNonNull(config, "config must be not null");
+		HEmailException.requireNonNull(config, "config must not be null");
 		this.config = config;
 		this._email_regex = DEFAULT_EMAIL_REGEX;
 		if (session == null) {
