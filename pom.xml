@@ -22,7 +22,7 @@
 			<name>heanbian</name>
 			<email>heanbian@heanbian.com</email>
 			<organization>heanbian.com</organization>
-			<organizationUrl>http://www.heanbian.com</organizationUrl>
+			<organizationUrl>https://www.heanbian.com</organizationUrl>
 			<roles>
 				<role>developer</role>
 			</roles>
@@ -41,8 +41,8 @@
 	</issueManagement>
 
 	<properties>
-		<javax.mail.version>1.6.2</javax.mail.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javax.mail.version>1.6.2</javax.mail.version>
 	</properties>
 
 	<dependencies>
