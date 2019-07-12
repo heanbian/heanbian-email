@@ -4,15 +4,15 @@
 1.pom.xml
 ```
 <dependencies>
-	<dependency>
-		<groupId>com.heanbian</groupId>
-		<artifactId>heanbian-email</artifactId>
-		<version>${version}</version>
-	</dependency>
+ <dependency>
+  <groupId>com.heanbian</groupId>
+  <artifactId>heanbian-email</artifactId>
+  <version>4.0.4</version>
+ </dependency>
 </dependencies>
 ```
 
-2.Example
+2.Examples
 ```
 HEmailConfig config = new HEmailConfig();
 config.setHost("smtp.exmail.qq.com");
