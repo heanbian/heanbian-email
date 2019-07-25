@@ -1,4 +1,4 @@
-package com.heanbian.email;
+package com.heanbian.block.reactive.email;
 
 import java.io.File;
 import java.net.URL;
@@ -23,13 +23,12 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 /**
- * 邮件发送类
+ * 邮件发送模板类
  * 
- * @author heanbian@heanbian.com
- * @since 1.0
- * @version 1.0
+ * @author Heanbian
+ * @version 5.0
  */
-public class HEmailTemplate {
+public class EmailTemplate {
 
 	/**
 	 * 默认正则表达式
@@ -37,41 +36,39 @@ public class HEmailTemplate {
 	private static final String DEFAULT_EMAIL_REGEX = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
 	private MimeMessage mimeMessage;
 	private Session session;
-	private String _email_regex;
-	private HEmailConfig config;
+	private String regex;
+	private EmailConfig config;
 
 	/**
 	 * 邮箱正则验证，默认正则
 	 * 
-	 * @since 4.0.2
 	 * @param email 邮箱
-	 * @return 是否符合正则
+	 * @return boolean
 	 */
 	public boolean matches(String email) {
-		HEmailException.requireNonNull(email, "email must not be null");
+		EmailException.requireNonNull(email, "email must not be null");
 		return matches(DEFAULT_EMAIL_REGEX);
 	}
 
 	/**
 	 * 邮箱正则验证
 	 * 
-	 * @since 4.0.2
-	 * @param email        邮箱
-	 * @param _email_regex 正则
-	 * @return 是否符合正则
+	 * @param email 邮箱
+	 * @param regex 正则
+	 * @return boolean
 	 */
-	public boolean matches(String email, String _email_regex) {
-		HEmailException.requireNonNull(email, "email must not be null");
-		return email.matches(_email_regex);
+	public boolean matches(String email, String regex) {
+		EmailException.requireNonNull(email, "email must not be null");
+		return email.matches(regex);
 	}
 
 	/**
 	 * @param config 邮件配置
 	 */
-	public HEmailTemplate(HEmailConfig config) {
-		HEmailException.requireNonNull(config, "config must not be null");
+	public EmailTemplate(EmailConfig config) {
+		EmailException.requireNonNull(config, "config must not be null");
 		this.config = config;
-		this._email_regex = DEFAULT_EMAIL_REGEX;
+		this.regex = DEFAULT_EMAIL_REGEX;
 		if (session == null) {
 			session = initSession(config);
 			session.setDebug(config.isDebug());
@@ -83,13 +80,13 @@ public class HEmailTemplate {
 	 * 发送邮件方法，使用自定义正则表达式
 	 * 
 	 * @param message      消息体
-	 * @param _email_regex 验证邮件正则表达式
+	 * @param regex 验证邮件正则表达式
 	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
-	public MimeMessage send(HEmailMessage message, String _email_regex) throws Exception {
-		if (_email_regex != null) {
-			this._email_regex = _email_regex;
+	public MimeMessage send(EmailMessage message, String regex) throws Exception {
+		if (regex != null) {
+			this.regex = regex;
 		}
 		return send(message);
 	}
@@ -104,7 +101,7 @@ public class HEmailTemplate {
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(String subject, List<String> toAddress, String content) throws Exception {
-		return send(new HEmailMessage(subject, toAddress, content));
+		return send(new EmailMessage(subject, toAddress, content));
 	}
 
 	/**
@@ -117,7 +114,7 @@ public class HEmailTemplate {
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(String subject, String toAddress, String content) throws Exception {
-		return send(new HEmailMessage(subject, toAddress, content));
+		return send(new EmailMessage(subject, toAddress, content));
 	}
 
 	/**
@@ -127,26 +124,26 @@ public class HEmailTemplate {
 	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
-	public MimeMessage send(HEmailMessage message) throws Exception {
+	public MimeMessage send(EmailMessage message) throws Exception {
 		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
 		mimeMessage.setSubject(message.getSubject());
 		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
 
 		if (message.getToAddress() == null || message.getToAddress().isEmpty()) {
-			throw new HEmailException("接收人邮件地址至少一个");
+			throw new EmailException("接收人邮件地址至少一个");
 		}
 
 		for (String to : message.getToAddress()) {
-			if (!to.matches(this._email_regex)) {
-				throw new HEmailException("接收人邮件地址不合法：" + to);
+			if (!to.matches(this.regex)) {
+				throw new EmailException("接收人邮件地址不合法：" + to);
 			}
 			mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(to));
 		}
 
 		if (message.getCcAddress() != null && !message.getCcAddress().isEmpty()) {
 			for (String cc : message.getCcAddress()) {
-				if (!cc.matches(this._email_regex)) {
-					throw new HEmailException("抄送人邮件地址不合法：" + cc);
+				if (!cc.matches(this.regex)) {
+					throw new EmailException("抄送人邮件地址不合法：" + cc);
 				}
 				mimeMessage.addRecipient(RecipientType.CC, new InternetAddress(cc));
 			}
@@ -154,8 +151,8 @@ public class HEmailTemplate {
 
 		if (message.getBccAddress() != null && !message.getBccAddress().isEmpty()) {
 			for (String bcc : message.getCcAddress()) {
-				if (!bcc.matches(this._email_regex)) {
-					throw new HEmailException("密送人邮件地址不合法：" + bcc);
+				if (!bcc.matches(this.regex)) {
+					throw new EmailException("密送人邮件地址不合法：" + bcc);
 				}
 				mimeMessage.addRecipient(RecipientType.BCC, new InternetAddress(bcc));
 			}
@@ -196,12 +193,12 @@ public class HEmailTemplate {
 	}
 
 	/**
-	 * 初始化Mail Session
+	 * 初始化 Session
 	 * 
 	 * @param config 邮件配置
-	 * @return Mail Session
+	 * @return Session
 	 */
-	private static final Session initSession(HEmailConfig config) {
+	private static final Session initSession(EmailConfig config) {
 		Properties p = new Properties();
 		p.put("mail.smtp.host", config.getHost());
 		p.put("mail.smtp.auth", "true");
@@ -219,7 +216,7 @@ public class HEmailTemplate {
 	/**
 	 * @return {@link #config}
 	 */
-	public HEmailConfig getConfig() {
+	public EmailConfig getConfig() {
 		return config;
 	}
 
@@ -232,9 +229,9 @@ public class HEmailTemplate {
 
 	/**
 	 * @param mimeMessage {@link #mimeMessage}
-	 * @return this
+	 * @return EmailTemplate
 	 */
-	public HEmailTemplate setMimeMessage(MimeMessage mimeMessage) {
+	public EmailTemplate setMimeMessage(MimeMessage mimeMessage) {
 		this.mimeMessage = mimeMessage;
 		return this;
 	}
@@ -248,18 +245,18 @@ public class HEmailTemplate {
 
 	/**
 	 * @param session {@link #session}
-	 * @return this
+	 * @return EmailTemplate
 	 */
-	public HEmailTemplate setSession(Session session) {
+	public EmailTemplate setSession(Session session) {
 		this.session = session;
 		return this;
 	}
 
 	/**
-	 * @return {@link #_email_regex}
+	 * @return {@link #regex}
 	 */
-	public String get_email_regex() {
-		return _email_regex;
+	public String getRegex() {
+		return regex;
 	}
 
 }

@@ -1,13 +1,12 @@
-package com.heanbian.email;
+package com.heanbian.block.reactive.email;
 
 /**
  * 邮件配置类
  * 
- * @author heanbian@heanbian.com
- * @since 1.0
- * @version 1.0
+ * @author Heanbian
+ * @version 5.0
  */
-public class HEmailConfig {
+public class EmailConfig {
 
 	/**
 	 * 代理邮件主机地址
@@ -39,8 +38,7 @@ public class HEmailConfig {
 	 */
 	private boolean debug;
 
-	public HEmailConfig() {
-	}
+	public EmailConfig() {}
 
 	/**
 	 * 配置参数
@@ -52,7 +50,7 @@ public class HEmailConfig {
 	 * @param from     {@link #from}
 	 * @param debug    {@link #debug}
 	 */
-	public HEmailConfig(String host, int port, String username, String password, String from, boolean debug) {
+	public EmailConfig(String host, int port, String username, String password, String from, boolean debug) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
@@ -70,9 +68,9 @@ public class HEmailConfig {
 
 	/**
 	 * @param host {@link #host}
-	 * @return this
+	 * @return EmailConfig
 	 */
-	public HEmailConfig setHost(String host) {
+	public EmailConfig setHost(String host) {
 		this.host = host;
 		return this;
 	}
@@ -86,9 +84,9 @@ public class HEmailConfig {
 
 	/**
 	 * @param port {@link #port}
-	 * @return this
+	 * @return EmailConfig
 	 */
-	public HEmailConfig setPort(int port) {
+	public EmailConfig setPort(int port) {
 		this.port = port;
 		return this;
 	}
@@ -102,9 +100,9 @@ public class HEmailConfig {
 
 	/**
 	 * @param username {@link #username}
-	 * @return this
+	 * @return EmailConfig
 	 */
-	public HEmailConfig setUsername(String username) {
+	public EmailConfig setUsername(String username) {
 		this.username = username;
 		return this;
 	}
@@ -118,9 +116,9 @@ public class HEmailConfig {
 
 	/**
 	 * @param password {@link #password}
-	 * @return this
+	 * @return EmailConfig
 	 */
-	public HEmailConfig setPassword(String password) {
+	public EmailConfig setPassword(String password) {
 		this.password = password;
 		return this;
 	}
@@ -134,9 +132,9 @@ public class HEmailConfig {
 
 	/**
 	 * @param from {@link #from}
-	 * @return this
+	 * @return EmailConfig
 	 */
-	public HEmailConfig setFrom(String from) {
+	public EmailConfig setFrom(String from) {
 		this.from = from;
 		return this;
 	}
@@ -150,9 +148,9 @@ public class HEmailConfig {
 
 	/**
 	 * @param debug {@link #debug}
-	 * @return this
+	 * @return EmailConfig
 	 */
-	public HEmailConfig setDebug(boolean debug) {
+	public EmailConfig setDebug(boolean debug) {
 		this.debug = debug;
 		return this;
 	}

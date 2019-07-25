@@ -1,4 +1,4 @@
-package com.heanbian.email;
+package com.heanbian.block.reactive.email;
 
 import java.io.File;
 import java.util.Arrays;
@@ -7,11 +7,10 @@ import java.util.List;
 /**
  * 邮件消息类
  * 
- * @author heanbian@heanbian.com
- * @since 1.0
- * @version 1.0
+ * @author Heanbian
+ * @version 5.0
  */
-public class HEmailMessage {
+public class EmailMessage {
 
 	/**
 	 * 主题
@@ -48,8 +47,7 @@ public class HEmailMessage {
 	 */
 	private String content;
 
-	public HEmailMessage() {
-	}
+	public EmailMessage() {}
 
 	/**
 	 * 消息体
@@ -58,7 +56,7 @@ public class HEmailMessage {
 	 * @param toAddress {@link #toAddress}
 	 * @param content   {@link #content}
 	 */
-	public HEmailMessage(String subject, String toAddress, String content) {
+	public EmailMessage(String subject, String toAddress, String content) {
 		this(subject, Arrays.asList(toAddress), null, null, null, null, content);
 	}
 
@@ -69,7 +67,7 @@ public class HEmailMessage {
 	 * @param toAddress {@link #toAddress}
 	 * @param content   {@link #content}
 	 */
-	public HEmailMessage(String subject, List<String> toAddress, String content) {
+	public EmailMessage(String subject, List<String> toAddress, String content) {
 		this(subject, toAddress, null, null, null, null, content);
 	}
 
@@ -84,7 +82,7 @@ public class HEmailMessage {
 	 * @param files       {@link #files}
 	 * @param content     {@link #content}
 	 */
-	public HEmailMessage(String subject, List<String> toAddress, List<String> ccAddress, List<String> bccAddress,
+	public EmailMessage(String subject, List<String> toAddress, List<String> ccAddress, List<String> bccAddress,
 			List<String> attachments, List<File> files, String content) {
 		this.subject = subject;
 		this.toAddress = toAddress;
@@ -104,9 +102,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param subject {@link #subject}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setSubject(String subject) {
+	public EmailMessage setSubject(String subject) {
 		this.subject = subject;
 		return this;
 	}
@@ -120,9 +118,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param toAddress {@link #toAddress}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setToAddress(List<String> toAddress) {
+	public EmailMessage setToAddress(List<String> toAddress) {
 		this.toAddress = toAddress;
 		return this;
 	}
@@ -136,9 +134,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param ccAddress {@link #ccAddress}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setCcAddress(List<String> ccAddress) {
+	public EmailMessage setCcAddress(List<String> ccAddress) {
 		this.ccAddress = ccAddress;
 		return this;
 	}
@@ -152,9 +150,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param bccAddress {@link #bccAddress}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setBccAddress(List<String> bccAddress) {
+	public EmailMessage setBccAddress(List<String> bccAddress) {
 		this.bccAddress = bccAddress;
 		return this;
 	}
@@ -168,9 +166,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param attachments {@link #attachments}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setAttachments(List<String> attachments) {
+	public EmailMessage setAttachments(List<String> attachments) {
 		this.attachments = attachments;
 		return this;
 	}
@@ -184,9 +182,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param files {@link #files}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setFiles(List<File> files) {
+	public EmailMessage setFiles(List<File> files) {
 		this.files = files;
 		return this;
 	}
@@ -200,9 +198,9 @@ public class HEmailMessage {
 
 	/**
 	 * @param content {@link #content}
-	 * @return this
+	 * @return EmailMessage
 	 */
-	public HEmailMessage setContent(String content) {
+	public EmailMessage setContent(String content) {
 		this.content = content;
 		return this;
 	}
