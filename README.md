@@ -7,19 +7,19 @@
  <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-email</artifactId>
-  <version>4.0.4</version>
+  <version>5.0.0</version>
  </dependency>
 </dependencies>
 ```
 
 2.Examples
 ```
-HEmailConfig config = new HEmailConfig();
+EmailConfig config = new EmailConfig();
 config.setHost("smtp.exmail.qq.com");
 config.setFrom("系统邮件");
 config.setUsername("xxx@qq.com");
 config.setPassword("p123456");
 config.setPort(465);
-HEmailTemplate tmp = new HEmailTemplate(config);
-tmp.send(new HEmailMessage("测试", "xxx@qq.com", "测试"));
+EmailTemplate template = new EmailTemplate(config);
+template.send(new HEmailMessage("测试", "xxx@qq.com", "测试"));
 ```
