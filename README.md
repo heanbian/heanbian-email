@@ -21,5 +21,5 @@ config.setUsername("xxx@qq.com");
 config.setPassword("p123456");
 config.setPort(465);
 EmailTemplate template = new EmailTemplate(config);
-template.send(new HEmailMessage("测试", "xxx@qq.com", "测试"));
+template.send(new EmailMessage("测试", "xxx@qq.com", "测试"));
 ```
