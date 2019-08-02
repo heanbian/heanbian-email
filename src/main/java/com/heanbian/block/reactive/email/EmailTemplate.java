@@ -34,7 +34,7 @@ public class EmailTemplate {
 	 * 默认正则表达式
 	 */
 	private static final String DEFAULT_EMAIL_REGEX = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
-	private MimeMessage mimeMessage;
+	// private MimeMessage mimeMessage;
 	private Session session;
 	private String regex;
 	private EmailConfig config;
@@ -73,14 +73,13 @@ public class EmailTemplate {
 			session = initSession(config);
 			session.setDebug(config.isDebug());
 		}
-		this.mimeMessage = new MimeMessage(session);
 	}
 
 	/**
 	 * 发送邮件方法，使用自定义正则表达式
 	 * 
-	 * @param message      消息体
-	 * @param regex 验证邮件正则表达式
+	 * @param message 消息体
+	 * @param regex   验证邮件正则表达式
 	 * @return MimeMessage 返回结果
 	 * @throws Exception 异常
 	 */
@@ -125,6 +124,7 @@ public class EmailTemplate {
 	 * @throws Exception 异常
 	 */
 	public MimeMessage send(EmailMessage message) throws Exception {
+		MimeMessage mimeMessage = new MimeMessage(session);
 		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
 		mimeMessage.setSubject(message.getSubject());
 		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
@@ -218,22 +218,6 @@ public class EmailTemplate {
 	 */
 	public EmailConfig getConfig() {
 		return config;
-	}
-
-	/**
-	 * @return {@link #mimeMessage}
-	 */
-	public MimeMessage getMimeMessage() {
-		return mimeMessage;
-	}
-
-	/**
-	 * @param mimeMessage {@link #mimeMessage}
-	 * @return EmailTemplate
-	 */
-	public EmailTemplate setMimeMessage(MimeMessage mimeMessage) {
-		this.mimeMessage = mimeMessage;
-		return this;
 	}
 
 	/**
