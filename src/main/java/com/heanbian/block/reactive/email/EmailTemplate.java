@@ -1,6 +1,8 @@
 package com.heanbian.block.reactive.email;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
@@ -12,6 +14,7 @@ import javax.activation.URLDataSource;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -34,10 +37,14 @@ public class EmailTemplate {
 	 * 默认正则表达式
 	 */
 	private static final String DEFAULT_EMAIL_REGEX = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
-	// private MimeMessage mimeMessage;
 	private Session session;
 	private String regex;
 	private EmailConfig config;
+	private EmailMessage message;
+
+	public EmailTemplate() {
+		this.regex = DEFAULT_EMAIL_REGEX;
+	}
 
 	/**
 	 * 邮箱正则验证，默认正则
@@ -47,7 +54,7 @@ public class EmailTemplate {
 	 */
 	public boolean matches(String email) {
 		EmailException.requireNonNull(email, "email must not be null");
-		return matches(DEFAULT_EMAIL_REGEX);
+		return matches(this.regex);
 	}
 
 	/**
@@ -76,14 +83,39 @@ public class EmailTemplate {
 	}
 
 	/**
+	 * @param config  邮件配置
+	 * @param message 邮件消费体
+	 */
+	public EmailTemplate(EmailConfig config, EmailMessage message) {
+		EmailException.requireNonNull(config, "config must not be null");
+		EmailException.requireNonNull(message, "message must not be null");
+		this.config = config;
+		this.regex = DEFAULT_EMAIL_REGEX;
+		if (session == null) {
+			session = initSession(config);
+			session.setDebug(config.isDebug());
+		}
+		this.message = message;
+	}
+
+	/**
+	 * 发送邮件方法
+	 * 
+	 * @return MimeMessage
+	 */
+	public MimeMessage send() {
+		EmailException.requireNonNull(this.message, "message must be set");
+		return send(this.message);
+	}
+
+	/**
 	 * 发送邮件方法，使用自定义正则表达式
 	 * 
 	 * @param message 消息体
 	 * @param regex   验证邮件正则表达式
-	 * @return MimeMessage 返回结果
-	 * @throws Exception 异常
+	 * @return MimeMessage
 	 */
-	public MimeMessage send(EmailMessage message, String regex) throws Exception {
+	public MimeMessage send(EmailMessage message, String regex) {
 		if (regex != null) {
 			this.regex = regex;
 		}
@@ -96,10 +128,9 @@ public class EmailTemplate {
 	 * @param subject   主题
 	 * @param toAddress 接收人
 	 * @param content   正文内容
-	 * @return MimeMessage 返回结果
-	 * @throws Exception 异常
+	 * @return MimeMessage
 	 */
-	public MimeMessage send(String subject, List<String> toAddress, String content) throws Exception {
+	public MimeMessage send(String subject, List<String> toAddress, String content) {
 		return send(new EmailMessage(subject, toAddress, content));
 	}
 
@@ -109,21 +140,38 @@ public class EmailTemplate {
 	 * @param subject   主题
 	 * @param toAddress 接收人
 	 * @param content   正文内容
-	 * @return MimeMessage 返回结果
-	 * @throws Exception 异常
+	 * @return MimeMessage
 	 */
-	public MimeMessage send(String subject, String toAddress, String content) throws Exception {
+	public MimeMessage send(String subject, String toAddress, String content) {
 		return send(new EmailMessage(subject, toAddress, content));
+	}
+
+	/**
+	 * 发送邮件方法
+	 * 
+	 * @param message 消息体
+	 * @return MimeMessage
+	 */
+	public MimeMessage send(EmailMessage message) {
+		try {
+			return send0(message);
+		} catch (Exception e) {
+			throw new EmailException(e.getMessage(), e);
+		}
 	}
 
 	/**
 	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
 	 * 
 	 * @param message 消息体
-	 * @return MimeMessage 返回结果
-	 * @throws Exception 异常
+	 * @return MimeMessage
+	 * @throws UnsupportedEncodingException
+	 * @throws MessagingException
+	 * @throws MalformedURLException
+	 * @throws Exception
 	 */
-	public MimeMessage send(EmailMessage message) throws Exception {
+	private MimeMessage send0(EmailMessage message)
+			throws UnsupportedEncodingException, MessagingException, MalformedURLException {
 		MimeMessage mimeMessage = new MimeMessage(session);
 		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
 		mimeMessage.setSubject(message.getSubject());
@@ -241,6 +289,20 @@ public class EmailTemplate {
 	 */
 	public String getRegex() {
 		return regex;
+	}
+
+	public EmailMessage getMessage() {
+		return message;
+	}
+
+	public EmailTemplate setMessage(EmailMessage message) {
+		this.message = message;
+		return this;
+	}
+
+	public EmailTemplate setConfig(EmailConfig config) {
+		this.config = config;
+		return this;
 	}
 
 }
