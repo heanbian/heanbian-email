@@ -7,10 +7,12 @@
 <dependency>
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>5.0.0</version>
+	<version>11.0.0</version>
 </dependency>
 
 ```
+
+注：JDK 11+ ，具体最新版本，可以到maven官网查找。
 
 ### 程序使用方法
 
