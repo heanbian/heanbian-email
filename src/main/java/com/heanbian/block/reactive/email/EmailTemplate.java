@@ -53,8 +53,7 @@ public class EmailTemplate {
 	 * @return boolean
 	 */
 	public boolean matches(String email) {
-		EmailException.requireNonNull(email, "email must not be null");
-		return matches(this.regex);
+		return matches(email, this.regex);
 	}
 
 	/**
@@ -66,6 +65,7 @@ public class EmailTemplate {
 	 */
 	public boolean matches(String email, String regex) {
 		EmailException.requireNonNull(email, "email must not be null");
+		EmailException.requireNonNull(regex, "regex must not be null");
 		return email.matches(regex);
 	}
 
