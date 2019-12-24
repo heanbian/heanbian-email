@@ -6,15 +6,12 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>11.0.2</version>
+	<version>11.0.4</version>
 	<packaging>jar</packaging>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<javax.mail.version>1.6.2</javax.mail.version>
-		<arguments />
-	</properties>
-
+	<name>heanbian-email</name>
+	<url>https://github.com/heanbian/heanbian-email</url>
+	<description>Heanbian email components.</description>
 	<inceptionYear>2019</inceptionYear>
 
 	<licenses>
@@ -49,11 +46,35 @@
 		<url>https://github.com/heanbian/heanbian-email/issues</url>
 	</issueManagement>
 
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<profiles>
 		<profile>
 			<id>sonatype-oss-release</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.8.1</version>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<source>11</source>
+							<target>11</target>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -136,6 +157,12 @@
 		</repository>
 	</distributionManagement>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javax.mail.version>1.6.2</javax.mail.version>
+		<arguments />
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
@@ -143,5 +170,4 @@
 			<version>${javax.mail.version}</version>
 		</dependency>
 	</dependencies>
-	
 </project>
