@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -29,132 +28,39 @@ import javax.mail.internet.MimeUtility;
  * 邮件发送模板类
  * 
  * @author Heanbian
- * @version 5.0
+ * @version 11.0.5
  */
 public class EmailTemplate {
 
 	/**
 	 * 默认正则表达式
 	 */
-	private static final String DEFAULT_EMAIL_REGEX = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+	private static final String DEFAULT_EMAIL_REGEX = "\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
 	private Session session;
 	private String regex;
 	private EmailConfig config;
 	private EmailMessage message;
 
-	public EmailTemplate() {
-		this.regex = DEFAULT_EMAIL_REGEX;
-	}
-
-	/**
-	 * 邮箱正则验证，默认正则
-	 * 
-	 * @param email 邮箱
-	 * @return boolean
-	 */
-	public boolean matches(String email) {
-		return matches(email, this.regex);
-	}
-
-	/**
-	 * 邮箱正则验证
-	 * 
-	 * @param email 邮箱
-	 * @param regex 正则
-	 * @return boolean
-	 */
-	public boolean matches(String email, String regex) {
-		EmailException.requireNonNull(email, "email must not be null");
-		EmailException.requireNonNull(regex, "regex must not be null");
-		return email.matches(regex);
-	}
-
-	/**
-	 * @param config 邮件配置
-	 */
-	public EmailTemplate(EmailConfig config) {
-		EmailException.requireNonNull(config, "config must not be null");
-		this.config = config;
-		this.regex = DEFAULT_EMAIL_REGEX;
-		if (session == null) {
-			session = initSession(config);
-			session.setDebug(config.isDebug());
-		}
-	}
-
 	/**
 	 * @param config  邮件配置
-	 * @param message 邮件消费体
+	 * @param message 邮件消息
 	 */
 	public EmailTemplate(EmailConfig config, EmailMessage message) {
-		EmailException.requireNonNull(config, "config must not be null");
-		EmailException.requireNonNull(message, "message must not be null");
-		this.config = config;
+		this.config = EmailException.requireNonNull(config, "config must not be null");
+		this.message = EmailException.requireNonNull(message, "message must not be null");
 		this.regex = DEFAULT_EMAIL_REGEX;
-		if (session == null) {
-			session = initSession(config);
-			session.setDebug(config.isDebug());
-		}
-		this.message = message;
+		this.session = initSession(config);
+		this.session.setDebug(config.isDebug());
 	}
 
 	/**
-	 * 发送邮件方法
+	 * 发送邮件
 	 * 
 	 * @return MimeMessage
 	 */
 	public MimeMessage send() {
-		EmailException.requireNonNull(this.message, "message must be set");
-		return send(this.message);
-	}
-
-	/**
-	 * 发送邮件方法，使用自定义正则表达式
-	 * 
-	 * @param message 消息体
-	 * @param regex   验证邮件正则表达式
-	 * @return MimeMessage
-	 */
-	public MimeMessage send(EmailMessage message, String regex) {
-		if (regex != null) {
-			this.regex = regex;
-		}
-		return send(message);
-	}
-
-	/**
-	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
-	 * 
-	 * @param subject   主题
-	 * @param toAddress 接收人
-	 * @param content   正文内容
-	 * @return MimeMessage
-	 */
-	public MimeMessage send(String subject, List<String> toAddress, String content) {
-		return send(new EmailMessage(subject, toAddress, content));
-	}
-
-	/**
-	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
-	 * 
-	 * @param subject   主题
-	 * @param toAddress 接收人
-	 * @param content   正文内容
-	 * @return MimeMessage
-	 */
-	public MimeMessage send(String subject, String toAddress, String content) {
-		return send(new EmailMessage(subject, toAddress, content));
-	}
-
-	/**
-	 * 发送邮件方法
-	 * 
-	 * @param message 消息体
-	 * @return MimeMessage
-	 */
-	public MimeMessage send(EmailMessage message) {
 		try {
-			return send0(message);
+			return send0(this.message);
 		} catch (Exception e) {
 			throw new EmailException(e.getMessage(), e);
 		}
@@ -241,12 +147,12 @@ public class EmailTemplate {
 	}
 
 	/**
-	 * 初始化 Session
+	 * Init Session
 	 * 
-	 * @param config 邮件配置
+	 * @param config
 	 * @return Session
 	 */
-	private static final Session initSession(EmailConfig config) {
+	private final Session initSession(EmailConfig config) {
 		Properties p = new Properties();
 		p.put("mail.smtp.host", config.getHost());
 		p.put("mail.smtp.auth", "true");
@@ -259,50 +165,6 @@ public class EmailTemplate {
 				return new PasswordAuthentication(config.getUsername(), config.getPassword());
 			}
 		});
-	}
-
-	/**
-	 * @return {@link #config}
-	 */
-	public EmailConfig getConfig() {
-		return config;
-	}
-
-	/**
-	 * @return {@link #session}
-	 */
-	public Session getSession() {
-		return session;
-	}
-
-	/**
-	 * @param session {@link #session}
-	 * @return EmailTemplate
-	 */
-	public EmailTemplate setSession(Session session) {
-		this.session = session;
-		return this;
-	}
-
-	/**
-	 * @return {@link #regex}
-	 */
-	public String getRegex() {
-		return regex;
-	}
-
-	public EmailMessage getMessage() {
-		return message;
-	}
-
-	public EmailTemplate setMessage(EmailMessage message) {
-		this.message = message;
-		return this;
-	}
-
-	public EmailTemplate setConfig(EmailConfig config) {
-		this.config = config;
-		return this;
 	}
 
 }
