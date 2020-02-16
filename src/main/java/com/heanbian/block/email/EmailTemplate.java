@@ -1,4 +1,4 @@
-package com.heanbian.block.reactive.email;
+package com.heanbian.block.email;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

@@ -1,4 +1,4 @@
-package com.heanbian.block.reactive.email;
+package com.heanbian.block.email;
 
 /**
  * 邮件配置类
