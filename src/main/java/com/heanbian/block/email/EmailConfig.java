@@ -38,7 +38,20 @@ public class EmailConfig {
 	 */
 	private boolean debug;
 
-	public EmailConfig() {}
+	public EmailConfig() {
+	}
+
+	/**
+	 * 配置参数
+	 * 
+	 * @param host     {@link #host}
+	 * @param port     {@link #port}
+	 * @param username {@link #username}
+	 * @param password {@link #password}
+	 */
+	public EmailConfig(String host, int port, String username, String password) {
+		this(host, port, username, password, username, false);
+	}
 
 	/**
 	 * 配置参数
@@ -104,6 +117,7 @@ public class EmailConfig {
 	 */
 	public EmailConfig setUsername(String username) {
 		this.username = username;
+		this.from = username;
 		return this;
 	}
 
@@ -127,7 +141,7 @@ public class EmailConfig {
 	 * @return {@link #from}
 	 */
 	public String getFrom() {
-		return from != null ? from : username;
+		return from;
 	}
 
 	/**

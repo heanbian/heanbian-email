@@ -1,8 +1,8 @@
 package com.heanbian.block.email;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 邮件消息类
@@ -20,34 +20,35 @@ public class EmailMessage {
 	/**
 	 * 接收人邮件地址
 	 */
-	private List<String> toAddress;
+	private Set<String> toAddress;
 
 	/**
 	 * 抄送人邮件地址
 	 */
-	private List<String> ccAddress;
+	private Set<String> ccAddress;
 
 	/**
 	 * 密送人邮件地址
 	 */
-	private List<String> bccAddress;
+	private Set<String> bccAddress;
 
 	/**
 	 * 附件，Internet URLs
 	 */
-	private List<String> attachments;
+	private Set<String> attachments;
 
 	/**
 	 * 附件，Local files
 	 */
-	private List<File> files;
+	private Set<File> files;
 
 	/**
 	 * 正文内容
 	 */
 	private String content;
 
-	public EmailMessage() {}
+	public EmailMessage() {
+	}
 
 	/**
 	 * 消息体
@@ -57,7 +58,7 @@ public class EmailMessage {
 	 * @param content   {@link #content}
 	 */
 	public EmailMessage(String subject, String toAddress, String content) {
-		this(subject, Arrays.asList(toAddress), null, null, null, null, content);
+		this(subject, Set.of(toAddress), null, null, content);
 	}
 
 	/**
@@ -67,29 +68,25 @@ public class EmailMessage {
 	 * @param toAddress {@link #toAddress}
 	 * @param content   {@link #content}
 	 */
-	public EmailMessage(String subject, List<String> toAddress, String content) {
-		this(subject, toAddress, null, null, null, null, content);
+	public EmailMessage(String subject, Set<String> toAddress, String content) {
+		this(subject, toAddress, null, null, content);
 	}
 
 	/**
 	 * 消息体
 	 * 
-	 * @param subject     {@link #subject}
-	 * @param toAddress   {@link #toAddress}
-	 * @param ccAddress   {@link #ccAddress}
-	 * @param bccAddress  {@link #bccAddress}
-	 * @param attachments {@link #attachments}
-	 * @param files       {@link #files}
-	 * @param content     {@link #content}
+	 * @param subject    {@link #subject}
+	 * @param toAddress  {@link #toAddress}
+	 * @param ccAddress  {@link #ccAddress}
+	 * @param bccAddress {@link #bccAddress}
+	 * @param content    {@link #content}
 	 */
-	public EmailMessage(String subject, List<String> toAddress, List<String> ccAddress, List<String> bccAddress,
-			List<String> attachments, List<File> files, String content) {
+	public EmailMessage(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress,
+			String content) {
 		this.subject = subject;
 		this.toAddress = toAddress;
 		this.ccAddress = ccAddress;
 		this.bccAddress = bccAddress;
-		this.attachments = attachments;
-		this.files = files;
 		this.content = content;
 	}
 
@@ -112,7 +109,7 @@ public class EmailMessage {
 	/**
 	 * @return {@link #toAddress}
 	 */
-	public List<String> getToAddress() {
+	public Set<String> getToAddress() {
 		return toAddress;
 	}
 
@@ -120,15 +117,23 @@ public class EmailMessage {
 	 * @param toAddress {@link #toAddress}
 	 * @return EmailMessage
 	 */
-	public EmailMessage setToAddress(List<String> toAddress) {
+	public EmailMessage setToAddress(Set<String> toAddress) {
 		this.toAddress = toAddress;
+		return this;
+	}
+
+	public EmailMessage addToAddress(String toAddres) {
+		if (this.toAddress == null) {
+			this.toAddress = new HashSet<>();
+		}
+		this.toAddress.add(toAddres);
 		return this;
 	}
 
 	/**
 	 * @return {@link #ccAddress}
 	 */
-	public List<String> getCcAddress() {
+	public Set<String> getCcAddress() {
 		return ccAddress;
 	}
 
@@ -136,15 +141,23 @@ public class EmailMessage {
 	 * @param ccAddress {@link #ccAddress}
 	 * @return EmailMessage
 	 */
-	public EmailMessage setCcAddress(List<String> ccAddress) {
+	public EmailMessage setCcAddress(Set<String> ccAddress) {
 		this.ccAddress = ccAddress;
+		return this;
+	}
+
+	public EmailMessage addCcAddress(String ccAddres) {
+		if (this.ccAddress == null) {
+			this.ccAddress = new HashSet<>();
+		}
+		this.ccAddress.add(ccAddres);
 		return this;
 	}
 
 	/**
 	 * @return {@link #bccAddress}
 	 */
-	public List<String> getBccAddress() {
+	public Set<String> getBccAddress() {
 		return bccAddress;
 	}
 
@@ -152,15 +165,23 @@ public class EmailMessage {
 	 * @param bccAddress {@link #bccAddress}
 	 * @return EmailMessage
 	 */
-	public EmailMessage setBccAddress(List<String> bccAddress) {
+	public EmailMessage setBccAddress(Set<String> bccAddress) {
 		this.bccAddress = bccAddress;
+		return this;
+	}
+
+	public EmailMessage addBccAddress(String bccAddres) {
+		if (this.bccAddress == null) {
+			this.bccAddress = new HashSet<>();
+		}
+		this.bccAddress.add(bccAddres);
 		return this;
 	}
 
 	/**
 	 * @return {@link #attachments}
 	 */
-	public List<String> getAttachments() {
+	public Set<String> getAttachments() {
 		return attachments;
 	}
 
@@ -168,15 +189,23 @@ public class EmailMessage {
 	 * @param attachments {@link #attachments}
 	 * @return EmailMessage
 	 */
-	public EmailMessage setAttachments(List<String> attachments) {
+	public EmailMessage setAttachments(Set<String> attachments) {
 		this.attachments = attachments;
+		return this;
+	}
+
+	public EmailMessage addAttachment(String attachment) {
+		if (this.attachments == null) {
+			this.attachments = new HashSet<>();
+		}
+		this.attachments.add(attachment);
 		return this;
 	}
 
 	/**
 	 * @return {@link #files}
 	 */
-	public List<File> getFiles() {
+	public Set<File> getFiles() {
 		return files;
 	}
 
@@ -184,8 +213,16 @@ public class EmailMessage {
 	 * @param files {@link #files}
 	 * @return EmailMessage
 	 */
-	public EmailMessage setFiles(List<File> files) {
+	public EmailMessage setFiles(Set<File> files) {
 		this.files = files;
+		return this;
+	}
+
+	public EmailMessage addFile(File file) {
+		if (this.files == null) {
+			this.files = new HashSet<>();
+		}
+		this.files.add(file);
 		return this;
 	}
 

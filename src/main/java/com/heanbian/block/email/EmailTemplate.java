@@ -1,5 +1,11 @@
 package com.heanbian.block.email;
 
+import static com.heanbian.block.email.EmailException.requireNonNull;
+import static javax.mail.Message.RecipientType.BCC;
+import static javax.mail.Message.RecipientType.CC;
+import static javax.mail.Message.RecipientType.TO;
+import static javax.mail.internet.MimeUtility.encodeText;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -12,7 +18,6 @@ import javax.activation.FileDataSource;
 import javax.activation.URLDataSource;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
-import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
@@ -22,7 +27,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 
 /**
  * 邮件发送模板类
@@ -46,8 +50,8 @@ public class EmailTemplate {
 	 * @param message 邮件消息
 	 */
 	public EmailTemplate(EmailConfig config, EmailMessage message) {
-		this.config = EmailException.requireNonNull(config, "config must not be null");
-		this.message = EmailException.requireNonNull(message, "message must not be null");
+		this.config = requireNonNull(config, "config must not be null");
+		this.message = requireNonNull(message, "message must not be null");
 		this.regex = DEFAULT_EMAIL_REGEX;
 		this.session = initSession(config);
 		this.session.setDebug(config.isDebug());
@@ -91,7 +95,7 @@ public class EmailTemplate {
 			if (!to.matches(this.regex)) {
 				throw new EmailException("接收人邮件地址不合法：" + to);
 			}
-			mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(to));
+			mimeMessage.addRecipient(TO, new InternetAddress(to));
 		}
 
 		if (message.getCcAddress() != null && !message.getCcAddress().isEmpty()) {
@@ -99,7 +103,7 @@ public class EmailTemplate {
 				if (!cc.matches(this.regex)) {
 					throw new EmailException("抄送人邮件地址不合法：" + cc);
 				}
-				mimeMessage.addRecipient(RecipientType.CC, new InternetAddress(cc));
+				mimeMessage.addRecipient(CC, new InternetAddress(cc));
 			}
 		}
 
@@ -108,7 +112,7 @@ public class EmailTemplate {
 				if (!bcc.matches(this.regex)) {
 					throw new EmailException("密送人邮件地址不合法：" + bcc);
 				}
-				mimeMessage.addRecipient(RecipientType.BCC, new InternetAddress(bcc));
+				mimeMessage.addRecipient(BCC, new InternetAddress(bcc));
 			}
 		}
 
@@ -118,25 +122,26 @@ public class EmailTemplate {
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(mimeBodyPart);
 
-		BodyPart bodyPart = null;
-		DataSource ds = null;
-
 		if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
+			BodyPart bodyPart = null;
+			DataSource ds = null;
 			for (String url : message.getAttachments()) {
 				bodyPart = new MimeBodyPart();
 				ds = new URLDataSource(new URL(url));
 				bodyPart.setDataHandler(new DataHandler(ds));
-				bodyPart.setFileName(MimeUtility.encodeText(ds.getName()));
+				bodyPart.setFileName(encodeText(ds.getName()));
 				multipart.addBodyPart(bodyPart);
 			}
 		}
 
 		if (message.getFiles() != null && !message.getFiles().isEmpty()) {
+			BodyPart bodyPart = null;
+			DataSource ds = null;
 			for (File file : message.getFiles()) {
 				bodyPart = new MimeBodyPart();
 				ds = new FileDataSource(file);
 				bodyPart.setDataHandler(new DataHandler(ds));
-				bodyPart.setFileName(MimeUtility.encodeText(ds.getName()));
+				bodyPart.setFileName(encodeText(ds.getName()));
 				multipart.addBodyPart(bodyPart);
 			}
 		}
