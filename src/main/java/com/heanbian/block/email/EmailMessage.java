@@ -7,8 +7,7 @@ import java.util.Set;
 /**
  * 邮件消息类
  * 
- * @author Heanbian
- * @version 5.0
+ * @author 马洪
  */
 public class EmailMessage {
 

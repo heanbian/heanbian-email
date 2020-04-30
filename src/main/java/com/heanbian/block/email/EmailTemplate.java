@@ -31,8 +31,7 @@ import javax.mail.internet.MimeMultipart;
 /**
  * 邮件发送模板类
  * 
- * @author Heanbian
- * @version 11.0.5
+ * @author 马洪
  */
 public class EmailTemplate {
 
@@ -41,20 +40,23 @@ public class EmailTemplate {
 	 */
 	private static final String DEFAULT_EMAIL_REGEX = "\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
 	private Session session;
-	private String regex;
+	private String regex = DEFAULT_EMAIL_REGEX;
 	private EmailConfig config;
 	private EmailMessage message;
 
-	/**
-	 * @param config  邮件配置
-	 * @param message 邮件消息
-	 */
-	public EmailTemplate(EmailConfig config, EmailMessage message) {
-		this.config = requireNonNull(config, "config must not be null");
-		this.message = requireNonNull(message, "message must not be null");
-		this.regex = DEFAULT_EMAIL_REGEX;
+	public EmailTemplate(EmailConfig config) {
 		this.session = initSession(config);
 		this.session.setDebug(config.isDebug());
+		this.config = config;
+	}
+
+	public EmailTemplate(EmailConfig config, EmailMessage message) {
+		this(config);
+		this.message = message;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
 	}
 
 	/**
@@ -63,26 +65,31 @@ public class EmailTemplate {
 	 * @return MimeMessage
 	 */
 	public MimeMessage send() {
+		return send(this.message);
+	}
+
+	/**
+	 * 发送邮件
+	 * 
+	 * @param message
+	 * @return MimeMessage
+	 */
+	public MimeMessage send(EmailMessage message) {
 		try {
-			return send0(this.message);
+			return send0(message);
 		} catch (Exception e) {
 			throw new EmailException(e.getMessage(), e);
 		}
 	}
 
-	/**
-	 * 发送邮件方法，使用默认正则表达式{@link #DEFAULT_EMAIL_REGEX}
-	 * 
-	 * @param message 消息体
-	 * @return MimeMessage
-	 * @throws UnsupportedEncodingException
-	 * @throws MessagingException
-	 * @throws MalformedURLException
-	 * @throws Exception
-	 */
 	private MimeMessage send0(EmailMessage message)
 			throws UnsupportedEncodingException, MessagingException, MalformedURLException {
-		MimeMessage mimeMessage = new MimeMessage(session);
+		requireNonNull(message, "message must not be null");
+		if (this.regex == null) {
+			this.regex = DEFAULT_EMAIL_REGEX;
+		}
+
+		MimeMessage mimeMessage = new MimeMessage(this.session);
 		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
 		mimeMessage.setSubject(message.getSubject());
 		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
@@ -151,13 +158,8 @@ public class EmailTemplate {
 		return mimeMessage;
 	}
 
-	/**
-	 * Init Session
-	 * 
-	 * @param config
-	 * @return Session
-	 */
 	private final Session initSession(EmailConfig config) {
+		requireNonNull(config, "config must not be null");
 		Properties p = new Properties();
 		p.put("mail.smtp.host", config.getHost());
 		p.put("mail.smtp.auth", "true");

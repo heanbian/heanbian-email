@@ -3,11 +3,11 @@ package com.heanbian.block.email;
 /**
  * 邮件异常类
  * 
- * @author Heanbian
- * @version 5.0
+ * @author 马洪
  */
-@SuppressWarnings("serial")
 public class EmailException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
 
 	public EmailException() {
 		super();
