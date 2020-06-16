@@ -1,4 +1,3 @@
-[TOC]
 # heanbian-email
 
 ## 前提条件
