@@ -3,7 +3,7 @@ package com.heanbian.block.email;
 /**
  * 邮件配置类
  * 
- * @author 马洪
+ * @author Heanbian
  */
 public class EmailConfig {
 

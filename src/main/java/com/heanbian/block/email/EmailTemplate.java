@@ -1,6 +1,6 @@
 package com.heanbian.block.email;
 
-import static com.heanbian.block.email.EmailException.requireNonNull;
+import static java.util.Objects.requireNonNull;
 import static javax.mail.Message.RecipientType.BCC;
 import static javax.mail.Message.RecipientType.CC;
 import static javax.mail.Message.RecipientType.TO;
@@ -31,7 +31,7 @@ import javax.mail.internet.MimeMultipart;
 /**
  * 邮件发送模板类
  * 
- * @author 马洪
+ * @author Heanbian
  */
 public class EmailTemplate {
 

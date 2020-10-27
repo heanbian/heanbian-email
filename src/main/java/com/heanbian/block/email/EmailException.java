@@ -3,7 +3,7 @@ package com.heanbian.block.email;
 /**
  * 邮件异常类
  * 
- * @author 马洪
+ * @author Heanbian
  */
 public class EmailException extends RuntimeException {
 
@@ -13,18 +13,12 @@ public class EmailException extends RuntimeException {
 		super();
 	}
 
-	public EmailException(String message) {
-		super(message);
+	public EmailException(String message, Object... args) {
+		super(String.format(message, args));
 	}
 
-	public EmailException(String message, Throwable cause) {
-		super(message, cause);
+	public EmailException(Throwable cause, String message, Object... args) {
+		super(String.format(message, args), cause);
 	}
 
-	public static <T> T requireNonNull(T obj, String message) {
-		if (obj == null) {
-			throw new EmailException(message);
-		}
-		return obj;
-	}
 }
