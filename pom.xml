@@ -159,7 +159,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jakarta.mail.version>2.0.0</jakarta.mail.version>
+		<jakarta-mail.version>2.0.0</jakarta-mail.version>
 		<arguments />
 	</properties>
 
@@ -167,7 +167,7 @@
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
-			<version>${jakarta.mail.version}</version>
+			<version>${jakarta-mail.version}</version>
 		</dependency>
 	</dependencies>
 </project>

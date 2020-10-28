@@ -26,7 +26,7 @@ public class Test {
 		config.setUsername("759752xxx@qq.com");
 		config.setPassword("123456");
 		config.setHost("stmp.qq.com");
-		config.setPort(456);
+		config.setPort(465);
 		config.setFrom("系统邮件");
 		config.setDebug(true);
 
