@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>11.4.0</version>
+	<version>11.5.0</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-email</name>
@@ -160,6 +160,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jakarta-mail.version>2.0.0</jakarta-mail.version>
+		<jakarta-activation.version>2.0.0</jakarta-activation.version>
 		<arguments />
 	</properties>
 
@@ -168,6 +169,11 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
 			<version>${jakarta-mail.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.activation</groupId>
+			<artifactId>jakarta.activation</artifactId>
+			<version>${jakarta-activation.version}</version>
 		</dependency>
 	</dependencies>
 </project>

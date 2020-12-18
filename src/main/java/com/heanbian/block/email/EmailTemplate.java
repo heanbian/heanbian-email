@@ -1,10 +1,10 @@
 package com.heanbian.block.email;
 
-import static java.util.Objects.requireNonNull;
 import static jakarta.mail.Message.RecipientType.BCC;
 import static jakarta.mail.Message.RecipientType.CC;
 import static jakarta.mail.Message.RecipientType.TO;
 import static jakarta.mail.internet.MimeUtility.encodeText;
+import static java.util.Objects.requireNonNull;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -162,10 +162,10 @@ public class EmailTemplate {
 		requireNonNull(config, "config must not be null");
 		Properties p = new Properties();
 		p.put("mail.smtp.host", config.getHost());
+		p.put("mail.smtp.port", config.getPort());
 		p.put("mail.smtp.auth", "true");
 		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		p.put("mail.smtp.socketFactory.fallback", "false");
-		p.put("mail.smtp.port", config.getPort());
 
 		return Session.getDefaultInstance(p, new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
@@ -173,5 +173,4 @@ public class EmailTemplate {
 			}
 		});
 	}
-
 }
