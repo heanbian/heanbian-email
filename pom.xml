@@ -160,7 +160,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jakarta-mail.version>2.0.0</jakarta-mail.version>
-		<jakarta-activation.version>2.0.0</jakarta-activation.version>
+		<jakarta.activation.version>2.0.0</jakarta.activation.version>
 		<arguments />
 	</properties>
 
@@ -173,7 +173,7 @@
 		<dependency>
 			<groupId>com.sun.activation</groupId>
 			<artifactId>jakarta.activation</artifactId>
-			<version>${jakarta-activation.version}</version>
+			<version>${jakarta.activation.version}</version>
 		</dependency>
 	</dependencies>
 </project>
