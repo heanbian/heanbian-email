@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>11.5.0</version>
+	<version>11.5.1</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-email</name>
@@ -166,8 +166,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>jakarta.mail</artifactId>
+			<groupId>jakarta.mail</groupId>
+			<artifactId>jakarta.mail-api</artifactId>
 			<version>${jakarta-mail.version}</version>
 		</dependency>
 		<dependency>
