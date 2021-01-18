@@ -8,9 +8,9 @@ JDK11+
 
 ```
 <dependency>
-	<groupId>com.heanbian</groupId>
+	<groupId>com.heanbian.block</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>11.5.0</version>
+	<version>1.0.0</version>
 </dependency>
 ```
 
