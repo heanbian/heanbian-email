@@ -8,37 +8,18 @@ JDK11+
 
 ```
 <dependency>
-	<groupId>com.heanbian.block</groupId>
-	<artifactId>heanbian-email</artifactId>
-	<version>1.0.0</version>
+  <groupId>com.heanbian.block</groupId>
+  <artifactId>heanbian-email</artifactId>
+  <version>1.0.1</version>
 </dependency>
 ```
 
 ## 使用示例
 
-```
-import com.heanbian.block.email.*;
+> EmailConfig
 
-public class Test {
+> EmailMessage
 
-	public static void main(String[] args) {
-		EmailConfig config = new EmailConfig();
-		config.setUsername("759752xxx@qq.com");
-		config.setPassword("123456");
-		config.setHost("stmp.qq.com");
-		config.setPort(465);
-		config.setFrom("系统邮件");
-		config.setDebug(true);
+> EmailTemplate
 
-		EmailMessage message = new EmailMessage();
-		message.setSubject("测试主题");
-		message.setContent("测试邮件内容");
-		message.addToAddress("45847xxx@qq.com");
-
-		EmailTemplate template = new EmailTemplate(config, message);
-		template.send();
-	}
-}
-```
-
-说明：支持html邮件内容、附件（URL、File）、接收人、抄送人、密送人等。
+说明：支持HTML邮件内容、附件File、接收人TO、抄送人CC、密送人BCC等。

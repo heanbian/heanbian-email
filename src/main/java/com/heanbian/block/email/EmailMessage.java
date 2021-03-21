@@ -7,7 +7,6 @@ import java.util.Set;
 /**
  * 邮件消息类
  * 
- * @author Heanbian
  */
 public class EmailMessage {
 
@@ -17,69 +16,46 @@ public class EmailMessage {
 	private String subject;
 
 	/**
-	 * 接收人邮件地址
+	 * 接收人
 	 */
 	private Set<String> toAddress;
 
 	/**
-	 * 抄送人邮件地址
+	 * 抄送人
 	 */
 	private Set<String> ccAddress;
 
 	/**
-	 * 密送人邮件地址
+	 * 密送人
 	 */
 	private Set<String> bccAddress;
 
 	/**
-	 * 附件，Internet URLs
+	 * 附件，URLs
 	 */
 	private Set<String> attachments;
 
 	/**
-	 * 附件，Local files
+	 * 附件，Files
 	 */
 	private Set<File> files;
 
 	/**
-	 * 正文内容
+	 * 内容
 	 */
 	private String content;
 
 	public EmailMessage() {
 	}
 
-	/**
-	 * 消息体
-	 * 
-	 * @param subject   {@link #subject}
-	 * @param toAddress {@link #toAddress}
-	 * @param content   {@link #content}
-	 */
 	public EmailMessage(String subject, String toAddress, String content) {
 		this(subject, Set.of(toAddress), null, null, content);
 	}
 
-	/**
-	 * 消息体
-	 * 
-	 * @param subject   {@link #subject}
-	 * @param toAddress {@link #toAddress}
-	 * @param content   {@link #content}
-	 */
 	public EmailMessage(String subject, Set<String> toAddress, String content) {
 		this(subject, toAddress, null, null, content);
 	}
 
-	/**
-	 * 消息体
-	 * 
-	 * @param subject    {@link #subject}
-	 * @param toAddress  {@link #toAddress}
-	 * @param ccAddress  {@link #ccAddress}
-	 * @param bccAddress {@link #bccAddress}
-	 * @param content    {@link #content}
-	 */
 	public EmailMessage(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress,
 			String content) {
 		this.subject = subject;
@@ -89,33 +65,19 @@ public class EmailMessage {
 		this.content = content;
 	}
 
-	/**
-	 * @return {@link #subject}
-	 */
 	public String getSubject() {
 		return subject;
 	}
 
-	/**
-	 * @param subject {@link #subject}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setSubject(String subject) {
 		this.subject = subject;
 		return this;
 	}
 
-	/**
-	 * @return {@link #toAddress}
-	 */
 	public Set<String> getToAddress() {
 		return toAddress;
 	}
 
-	/**
-	 * @param toAddress {@link #toAddress}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setToAddress(Set<String> toAddress) {
 		this.toAddress = toAddress;
 		return this;
@@ -129,17 +91,10 @@ public class EmailMessage {
 		return this;
 	}
 
-	/**
-	 * @return {@link #ccAddress}
-	 */
 	public Set<String> getCcAddress() {
 		return ccAddress;
 	}
 
-	/**
-	 * @param ccAddress {@link #ccAddress}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setCcAddress(Set<String> ccAddress) {
 		this.ccAddress = ccAddress;
 		return this;
@@ -153,17 +108,10 @@ public class EmailMessage {
 		return this;
 	}
 
-	/**
-	 * @return {@link #bccAddress}
-	 */
 	public Set<String> getBccAddress() {
 		return bccAddress;
 	}
 
-	/**
-	 * @param bccAddress {@link #bccAddress}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setBccAddress(Set<String> bccAddress) {
 		this.bccAddress = bccAddress;
 		return this;
@@ -177,17 +125,10 @@ public class EmailMessage {
 		return this;
 	}
 
-	/**
-	 * @return {@link #attachments}
-	 */
 	public Set<String> getAttachments() {
 		return attachments;
 	}
 
-	/**
-	 * @param attachments {@link #attachments}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setAttachments(Set<String> attachments) {
 		this.attachments = attachments;
 		return this;
@@ -201,17 +142,10 @@ public class EmailMessage {
 		return this;
 	}
 
-	/**
-	 * @return {@link #files}
-	 */
 	public Set<File> getFiles() {
 		return files;
 	}
 
-	/**
-	 * @param files {@link #files}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setFiles(Set<File> files) {
 		this.files = files;
 		return this;
@@ -225,17 +159,10 @@ public class EmailMessage {
 		return this;
 	}
 
-	/**
-	 * @return {@link #content}
-	 */
 	public String getContent() {
 		return content;
 	}
 
-	/**
-	 * @param content {@link #content}
-	 * @return EmailMessage
-	 */
 	public EmailMessage setContent(String content) {
 		this.content = content;
 		return this;

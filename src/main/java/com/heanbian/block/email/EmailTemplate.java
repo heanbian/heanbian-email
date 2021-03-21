@@ -31,58 +31,65 @@ import javax.mail.internet.MimeMultipart;
 /**
  * 邮件发送模板类
  * 
- * @author Heanbian
  */
 public class EmailTemplate {
 
-	/**
-	 * 默认正则表达式
-	 */
 	private static final String DEFAULT_EMAIL_REGEX = "\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+	private String regex;
 	private Session session;
-	private String regex = DEFAULT_EMAIL_REGEX;
 	private EmailConfig config;
 	private EmailMessage message;
 
+	public EmailTemplate() {
+		this.regex = DEFAULT_EMAIL_REGEX;
+	}
+
 	public EmailTemplate(EmailConfig config) {
-		this.session = initSession(config);
-		this.session.setDebug(config.isDebug());
-		this.config = config;
+		this(config, null, DEFAULT_EMAIL_REGEX);
 	}
 
 	public EmailTemplate(EmailConfig config, EmailMessage message) {
-		this(config);
-		this.message = message;
+		this(config, message, DEFAULT_EMAIL_REGEX);
 	}
 
-	public void setRegex(String regex) {
+	public EmailTemplate(EmailConfig config, EmailMessage message, String regex) {
+		this.session = putSession(config);
+		this.session.setDebug(config.isDebug());
+		this.config = config;
+		this.message = message;
 		this.regex = regex;
 	}
 
-	/**
-	 * 发送邮件
-	 * 
-	 * @return MimeMessage
-	 */
+	public EmailTemplate setConfig(EmailConfig config) {
+		this.session = putSession(config);
+		this.session.setDebug(config.isDebug());
+		this.config = config;
+		return this;
+	}
+
+	public EmailTemplate setRegex(String regex) {
+		this.regex = regex;
+		return this;
+	}
+
+	public EmailTemplate setMessage(EmailMessage message) {
+		this.message = message;
+		return this;
+	}
+
 	public MimeMessage send() {
 		return send(this.message);
 	}
 
-	/**
-	 * 发送邮件
-	 * 
-	 * @param message
-	 * @return MimeMessage
-	 */
 	public MimeMessage send(EmailMessage message) {
 		try {
-			return send0(message);
+			return sendMimeMessage(message);
 		} catch (Exception e) {
 			throw new EmailException(e.getMessage(), e);
 		}
 	}
 
-	private MimeMessage send0(EmailMessage message)
+	private MimeMessage sendMimeMessage(EmailMessage message)
 			throws UnsupportedEncodingException, MessagingException, MalformedURLException {
 		requireNonNull(message, "message must not be null");
 		if (this.regex == null) {
@@ -158,18 +165,17 @@ public class EmailTemplate {
 		return mimeMessage;
 	}
 
-	private final Session initSession(EmailConfig config) {
-		requireNonNull(config, "config must not be null");
+	private static Session putSession(EmailConfig c) {
 		Properties p = new Properties();
-		p.put("mail.smtp.host", config.getHost());
-		p.put("mail.smtp.port", config.getPort());
+		p.put("mail.smtp.host", c.getHost());
+		p.put("mail.smtp.port", c.getPort());
 		p.put("mail.smtp.auth", "true");
 		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		p.put("mail.smtp.socketFactory.fallback", "false");
 
 		return Session.getDefaultInstance(p, new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(config.getUsername(), config.getPassword());
+				return new PasswordAuthentication(c.getUsername(), c.getPassword());
 			}
 		});
 	}

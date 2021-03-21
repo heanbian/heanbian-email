@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian.block</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-email</name>
@@ -159,14 +159,14 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<javax.mail.version>1.6.2</javax.mail.version>
+		<jakarta.mail.version>1.6.6</jakarta.mail.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>${javax.mail.version}</version>
+			<artifactId>jakarta.mail</artifactId>
+			<version>${jakarta.mail.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,10 +1,7 @@
 package com.heanbian.block.email;
 
-/**
- * 邮件异常类
- * 
- * @author Heanbian
- */
+import static java.lang.String.*;
+
 public class EmailException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
@@ -14,11 +11,11 @@ public class EmailException extends RuntimeException {
 	}
 
 	public EmailException(String message, Object... args) {
-		super(String.format(message, args));
+		this(null, message, args);
 	}
 
 	public EmailException(Throwable cause, String message, Object... args) {
-		super(String.format(message, args), cause);
+		super(format(message, args), cause);
 	}
 
 }
