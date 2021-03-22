@@ -41,11 +41,10 @@ public class EmailTemplate {
 	private EmailMessage message;
 
 	public EmailTemplate() {
-		this.regex = DEFAULT_EMAIL_REGEX;
 	}
 
 	public EmailTemplate(EmailConfig config) {
-		this(config, null, DEFAULT_EMAIL_REGEX);
+		this(config, null);
 	}
 
 	public EmailTemplate(EmailConfig config, EmailMessage message) {
@@ -53,16 +52,12 @@ public class EmailTemplate {
 	}
 
 	public EmailTemplate(EmailConfig config, EmailMessage message, String regex) {
-		this.session = putSession(config);
-		this.session.setDebug(config.isDebug());
 		this.config = config;
 		this.message = message;
 		this.regex = regex;
 	}
 
 	public EmailTemplate setConfig(EmailConfig config) {
-		this.session = putSession(config);
-		this.session.setDebug(config.isDebug());
 		this.config = config;
 		return this;
 	}
@@ -92,14 +87,21 @@ public class EmailTemplate {
 	private MimeMessage sendMimeMessage(EmailMessage message)
 			throws UnsupportedEncodingException, MessagingException, MalformedURLException {
 		requireNonNull(message, "message must not be null");
+		requireNonNull(this.config, "message must not be null");
+
 		if (this.regex == null) {
 			this.regex = DEFAULT_EMAIL_REGEX;
 		}
 
-		MimeMessage mimeMessage = new MimeMessage(this.session);
-		mimeMessage.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
-		mimeMessage.setSubject(message.getSubject());
-		mimeMessage.setText("您的邮箱客户端不支持HTML格式邮件");
+		if (this.session == null) {
+			this.session = putSession(this.config);
+			this.session.setDebug(this.config.isDebug());
+		}
+
+		MimeMessage mm = new MimeMessage(this.session);
+		mm.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
+		mm.setSubject(message.getSubject());
+		mm.setText("您的邮箱客户端不支持HTML格式邮件");
 
 		if (message.getToAddress() == null || message.getToAddress().isEmpty()) {
 			throw new EmailException("接收人邮件地址至少一个");
@@ -109,7 +111,7 @@ public class EmailTemplate {
 			if (!to.matches(this.regex)) {
 				throw new EmailException("接收人邮件地址不合法：" + to);
 			}
-			mimeMessage.addRecipient(TO, new InternetAddress(to));
+			mm.addRecipient(TO, new InternetAddress(to));
 		}
 
 		if (message.getCcAddress() != null && !message.getCcAddress().isEmpty()) {
@@ -117,7 +119,7 @@ public class EmailTemplate {
 				if (!cc.matches(this.regex)) {
 					throw new EmailException("抄送人邮件地址不合法：" + cc);
 				}
-				mimeMessage.addRecipient(CC, new InternetAddress(cc));
+				mm.addRecipient(CC, new InternetAddress(cc));
 			}
 		}
 
@@ -126,7 +128,7 @@ public class EmailTemplate {
 				if (!bcc.matches(this.regex)) {
 					throw new EmailException("密送人邮件地址不合法：" + bcc);
 				}
-				mimeMessage.addRecipient(BCC, new InternetAddress(bcc));
+				mm.addRecipient(BCC, new InternetAddress(bcc));
 			}
 		}
 
@@ -137,8 +139,8 @@ public class EmailTemplate {
 		multipart.addBodyPart(mimeBodyPart);
 
 		if (message.getAttachments() != null && !message.getAttachments().isEmpty()) {
-			BodyPart bodyPart = null;
-			DataSource ds = null;
+			BodyPart bodyPart;
+			DataSource ds;
 			for (String url : message.getAttachments()) {
 				bodyPart = new MimeBodyPart();
 				ds = new URLDataSource(new URL(url));
@@ -149,8 +151,8 @@ public class EmailTemplate {
 		}
 
 		if (message.getFiles() != null && !message.getFiles().isEmpty()) {
-			BodyPart bodyPart = null;
-			DataSource ds = null;
+			BodyPart bodyPart;
+			DataSource ds;
 			for (File file : message.getFiles()) {
 				bodyPart = new MimeBodyPart();
 				ds = new FileDataSource(file);
@@ -160,9 +162,9 @@ public class EmailTemplate {
 			}
 		}
 
-		mimeMessage.setContent(multipart);
-		Transport.send(mimeMessage);
-		return mimeMessage;
+		mm.setContent(multipart);
+		Transport.send(mm);
+		return mm;
 	}
 
 	private static Session putSession(EmailConfig c) {
@@ -179,4 +181,5 @@ public class EmailTemplate {
 			}
 		});
 	}
+
 }
