@@ -1,10 +1,10 @@
 package com.heanbian.block.email;
 
+import static jakarta.mail.Message.RecipientType.BCC;
+import static jakarta.mail.Message.RecipientType.CC;
+import static jakarta.mail.Message.RecipientType.TO;
+import static jakarta.mail.internet.MimeUtility.encodeText;
 import static java.util.Objects.requireNonNull;
-import static javax.mail.Message.RecipientType.BCC;
-import static javax.mail.Message.RecipientType.CC;
-import static javax.mail.Message.RecipientType.TO;
-import static javax.mail.internet.MimeUtility.encodeText;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -12,25 +12,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.activation.URLDataSource;
-import javax.mail.Authenticator;
-import javax.mail.BodyPart;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
+import jakarta.activation.URLDataSource;
+import jakarta.mail.Authenticator;
+import jakarta.mail.BodyPart;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 
 /**
  * 邮件发送模板类
- * 
  */
 public class EmailTemplate {
 
@@ -95,11 +94,11 @@ public class EmailTemplate {
 
 		if (this.session == null) {
 			this.session = putSession(this.config);
-			this.session.setDebug(this.config.isDebug());
+			this.session.setDebug(this.config.debug());
 		}
 
 		MimeMessage mm = new MimeMessage(this.session);
-		mm.setFrom(new InternetAddress(config.getUsername(), config.getFrom()));
+		mm.setFrom(new InternetAddress(config.username(), config.from()));
 		mm.setSubject(message.getSubject());
 		mm.setText("您的邮箱客户端不支持HTML格式邮件");
 
@@ -169,15 +168,15 @@ public class EmailTemplate {
 
 	private static Session putSession(EmailConfig c) {
 		Properties p = new Properties();
-		p.put("mail.smtp.host", c.getHost());
-		p.put("mail.smtp.port", c.getPort());
+		p.put("mail.smtp.host", c.host());
+		p.put("mail.smtp.port", c.port());
 		p.put("mail.smtp.auth", "true");
-		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		p.put("mail.smtp.socketFactory.class", "jakarta.net.ssl.SSLSocketFactory");
 		p.put("mail.smtp.socketFactory.fallback", "false");
 
 		return Session.getDefaultInstance(p, new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(c.getUsername(), c.getPassword());
+				return new PasswordAuthentication(c.username(), c.password());
 			}
 		});
 	}
