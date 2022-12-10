@@ -171,7 +171,7 @@ public class EmailTemplate {
 		p.put("mail.smtp.host", c.host());
 		p.put("mail.smtp.port", c.port());
 		p.put("mail.smtp.auth", "true");
-		p.put("mail.smtp.socketFactory.class", "jakarta.net.ssl.SSLSocketFactory");
+		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		p.put("mail.smtp.socketFactory.fallback", "false");
 
 		return Session.getDefaultInstance(p, new Authenticator() {
