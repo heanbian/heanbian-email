@@ -6,7 +6,6 @@ import java.util.Set;
 
 /**
  * 邮件消息类
- * 
  */
 public class EmailMessage {
 
@@ -49,20 +48,25 @@ public class EmailMessage {
 	}
 
 	public EmailMessage(String subject, String toAddress, String content) {
-		this(subject, Set.of(toAddress), null, null, content);
+		this.subject = subject;
+		this.toAddress = Set.of(toAddress);
+		this.content = content;
 	}
 
-	public EmailMessage(String subject, Set<String> toAddress, String content) {
-		this(subject, toAddress, null, null, content);
-	}
-
-	public EmailMessage(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress,
-			String content) {
+	public EmailMessage(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress, String content) {
 		this.subject = subject;
 		this.toAddress = toAddress;
 		this.ccAddress = ccAddress;
 		this.bccAddress = bccAddress;
 		this.content = content;
+	}
+	
+	public static EmailMessage of(String subject, String toAddress, String content) {
+		return new EmailMessage(subject, toAddress, content);
+	}
+	
+	public static EmailMessage of(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress, String content) {
+		return new EmailMessage(subject, toAddress, ccAddress, bccAddress, content);
 	}
 
 	public String getSubject() {

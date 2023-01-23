@@ -12,7 +12,7 @@ JDK 17
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-email</artifactId>
-  <version>13</version>
+  <version>13.2</version>
 </dependency>
 ```
 

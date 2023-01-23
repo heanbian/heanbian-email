@@ -1,6 +1,6 @@
 package com.heanbian.block.email;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 public class EmailException extends RuntimeException {
 
@@ -8,6 +8,10 @@ public class EmailException extends RuntimeException {
 
 	public EmailException() {
 		super();
+	}
+
+	public EmailException(String message) {
+		super(message);
 	}
 
 	public EmailException(String message, Object... args) {
