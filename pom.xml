@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>13.4</version>
+	<version>13.5</version>
 	<packaging>jar</packaging>
 	<name>heanbian-email</name>
 	<url>https://github.com/heanbian/heanbian-email</url>
