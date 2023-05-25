@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-email</artifactId>
-	<version>13.5</version>
+	<version>14</version>
 	<packaging>jar</packaging>
 	<name>heanbian-email</name>
 	<url>https://github.com/heanbian/heanbian-email</url>
@@ -146,7 +146,8 @@
 	</distributionManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jakarta.mail.version>2.1.1</jakarta.mail.version>
+		<jakarta.mail.version>2.1.2</jakarta.mail.version>
+		<org.eclipse.angus.version>2.0.2</org.eclipse.angus.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -157,7 +158,7 @@
 		<dependency>
 			<groupId>org.eclipse.angus</groupId>
 			<artifactId>jakarta.mail</artifactId>
-			<version>2.0.1</version>
+			<version>${org.eclipse.angus.version}</version>
 		</dependency>
 	</dependencies>
 </project>
