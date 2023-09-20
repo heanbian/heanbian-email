@@ -9,7 +9,7 @@ import static java.util.Objects.requireNonNull;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.Properties;
 
 import jakarta.activation.DataHandler;
@@ -142,7 +142,7 @@ public class EmailTemplate {
 			DataSource ds;
 			for (String url : message.getAttachments()) {
 				bodyPart = new MimeBodyPart();
-				ds = new URLDataSource(new URL(url));
+				ds = new URLDataSource(URI.create(url).toURL());
 				bodyPart.setDataHandler(new DataHandler(ds));
 				bodyPart.setFileName(encodeText(ds.getName()));
 				multipart.addBodyPart(bodyPart);
