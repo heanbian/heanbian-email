@@ -24,4 +24,14 @@ JDK 21
 
 * EmailTemplate
 
+----
+
+EmailConfig config = new EmailConfig(host, port, username, password, from, debug);
+EmailMessage message = new EmailMessage(subject, toAddress, content);
+EmailTemplate template = new EmailTemplate(config, message);
+template.send();
+
+----
+
+
 说明：支持HTML邮件内容、附件File、接收人TO、抄送人CC、密送人BCC等。
