@@ -6,11 +6,7 @@ import static jakarta.mail.Message.RecipientType.TO;
 import static jakarta.mail.internet.MimeUtility.encodeText;
 import static java.util.Objects.requireNonNull;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.util.Properties;
+import module java.base;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
@@ -85,8 +81,9 @@ public class EmailTemplate {
 
 	private MimeMessage sendMimeMessage(EmailMessage message)
 			throws UnsupportedEncodingException, MessagingException, MalformedURLException {
-		requireNonNull(message, "message must not be null");
-		requireNonNull(this.config, "message must not be null");
+
+		requireNonNull(message, "EmailMessage 不能为空");
+		requireNonNull(this.config, "EmailConfig 不能为空");
 
 		if (this.regex == null) {
 			this.regex = DEFAULT_EMAIL_REGEX;
@@ -171,6 +168,7 @@ public class EmailTemplate {
 		p.put("mail.smtp.host", c.host());
 		p.put("mail.smtp.port", c.port());
 		p.put("mail.smtp.auth", "true");
+		p.put("mail.smtp.ssl.enable", "true");
 		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		p.put("mail.smtp.socketFactory.fallback", "false");
 

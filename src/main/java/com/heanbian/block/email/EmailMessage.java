@@ -1,8 +1,6 @@
 package com.heanbian.block.email;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
+import module java.base;
 
 /**
  * 邮件消息类
@@ -44,29 +42,20 @@ public class EmailMessage {
 	 */
 	private String content;
 
-	public EmailMessage() {
-	}
+	public EmailMessage() {}
 
 	public EmailMessage(String subject, String toAddress, String content) {
+		this(subject, Set.of(toAddress), content);
+	}
+
+	public EmailMessage(String subject, Set<String> toAddress, String content) {
 		this.subject = subject;
-		this.toAddress = Set.of(toAddress);
+		this.toAddress = toAddress;
 		this.content = content;
 	}
 
-	public EmailMessage(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress, String content) {
-		this.subject = subject;
-		this.toAddress = toAddress;
-		this.ccAddress = ccAddress;
-		this.bccAddress = bccAddress;
-		this.content = content;
-	}
-	
 	public static EmailMessage of(String subject, String toAddress, String content) {
 		return new EmailMessage(subject, toAddress, content);
-	}
-	
-	public static EmailMessage of(String subject, Set<String> toAddress, Set<String> ccAddress, Set<String> bccAddress, String content) {
-		return new EmailMessage(subject, toAddress, ccAddress, bccAddress, content);
 	}
 
 	public String getSubject() {
