@@ -52,6 +52,11 @@ public class EmailTemplate {
 		this.regex = regex;
 	}
 
+	public EmailTemplate setSession(Session session) {
+		this.session = session;
+		return this;
+	}
+
 	public EmailTemplate setConfig(EmailConfig config) {
 		this.config = config;
 		return this;
