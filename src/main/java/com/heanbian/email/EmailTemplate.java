@@ -1,4 +1,4 @@
-package com.heanbian.block.email;
+package com.heanbian.email;
 
 import static jakarta.mail.Message.RecipientType.BCC;
 import static jakarta.mail.Message.RecipientType.CC;

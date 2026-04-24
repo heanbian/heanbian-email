@@ -1,4 +1,4 @@
-package com.heanbian.block.email;
+package com.heanbian.email;
 
 import java.util.IllegalFormatException;
 

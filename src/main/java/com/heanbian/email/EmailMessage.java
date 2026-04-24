@@ -1,4 +1,4 @@
-package com.heanbian.block.email;
+package com.heanbian.email;
 
 import java.io.File;
 import java.util.Collections;
