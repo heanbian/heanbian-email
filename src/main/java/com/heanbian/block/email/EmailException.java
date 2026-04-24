@@ -1,6 +1,6 @@
 package com.heanbian.block.email;
 
-import static java.lang.String.format;
+import java.util.IllegalFormatException;
 
 public class EmailException extends RuntimeException {
 
@@ -14,12 +14,34 @@ public class EmailException extends RuntimeException {
 		super(message);
 	}
 
+	public EmailException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public EmailException(Throwable cause) {
+		super(cause);
+	}
+
 	public EmailException(String message, Object... args) {
-		this(null, message, args);
+		super(formatSafely(message, args));
 	}
 
 	public EmailException(Throwable cause, String message, Object... args) {
-		super(format(message, args), cause);
+		super(formatSafely(message, args), cause);
+	}
+
+	private static String formatSafely(String message, Object... args) {
+		if (message == null) {
+			return null;
+		}
+		if (args == null || args.length == 0) {
+			return message;
+		}
+		try {
+			return String.format(message, args);
+		} catch (IllegalFormatException ex) {
+			return message;
+		}
 	}
 
 }

@@ -1,6 +1,10 @@
 package com.heanbian.block.email;
 
-import module java.base;
+import java.io.File;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 邮件消息类
@@ -15,43 +19,55 @@ public class EmailMessage {
 	/**
 	 * 接收人
 	 */
-	private Set<String> toAddress;
+	private Set<String> toAddress = new LinkedHashSet<>();
 
 	/**
 	 * 抄送人
 	 */
-	private Set<String> ccAddress;
+	private Set<String> ccAddress = new LinkedHashSet<>();
 
 	/**
 	 * 密送人
 	 */
-	private Set<String> bccAddress;
+	private Set<String> bccAddress = new LinkedHashSet<>();
 
 	/**
 	 * 附件，URLs
 	 */
-	private Set<String> attachments;
+	private Set<String> attachments = new LinkedHashSet<>();
 
 	/**
 	 * 附件，Files
 	 */
-	private Set<File> files;
+	private Set<File> files = new LinkedHashSet<>();
 
 	/**
-	 * 内容
+	 * HTML 内容
 	 */
 	private String content;
 
-	public EmailMessage() {}
+	/**
+	 * 纯文本内容，可选
+	 */
+	private String textContent;
+
+	public EmailMessage() {
+	}
 
 	public EmailMessage(String subject, String toAddress, String content) {
-		this(subject, Set.of(toAddress), content);
+		this();
+		this.subject = normalizeNullable(subject);
+		if (toAddress != null && !toAddress.trim().isEmpty()) {
+			addToAddress(toAddress);
+		}
+		this.content = normalizeNullable(content);
 	}
 
 	public EmailMessage(String subject, Set<String> toAddress, String content) {
-		this.subject = subject;
-		this.toAddress = toAddress;
-		this.content = content;
+		this();
+		this.subject = normalizeNullable(subject);
+		setToAddress(toAddress);
+		this.content = normalizeNullable(content);
 	}
 
 	public static EmailMessage of(String subject, String toAddress, String content) {
@@ -63,92 +79,77 @@ public class EmailMessage {
 	}
 
 	public EmailMessage setSubject(String subject) {
-		this.subject = subject;
+		this.subject = normalizeNullable(subject);
 		return this;
 	}
 
 	public Set<String> getToAddress() {
-		return toAddress;
+		return Collections.unmodifiableSet(toAddress);
 	}
 
 	public EmailMessage setToAddress(Set<String> toAddress) {
-		this.toAddress = toAddress;
+		this.toAddress = copyStringSet(toAddress);
 		return this;
 	}
 
-	public EmailMessage addToAddress(String toAddres) {
-		if (this.toAddress == null) {
-			this.toAddress = new HashSet<>();
-		}
-		this.toAddress.add(toAddres);
+	public EmailMessage addToAddress(String toAddress) {
+		this.toAddress.add(requireText(toAddress, "接收人邮件地址不能为空"));
 		return this;
 	}
 
 	public Set<String> getCcAddress() {
-		return ccAddress;
+		return Collections.unmodifiableSet(ccAddress);
 	}
 
 	public EmailMessage setCcAddress(Set<String> ccAddress) {
-		this.ccAddress = ccAddress;
+		this.ccAddress = copyStringSet(ccAddress);
 		return this;
 	}
 
-	public EmailMessage addCcAddress(String ccAddres) {
-		if (this.ccAddress == null) {
-			this.ccAddress = new HashSet<>();
-		}
-		this.ccAddress.add(ccAddres);
+	public EmailMessage addCcAddress(String ccAddress) {
+		this.ccAddress.add(requireText(ccAddress, "抄送人邮件地址不能为空"));
 		return this;
 	}
 
 	public Set<String> getBccAddress() {
-		return bccAddress;
+		return Collections.unmodifiableSet(bccAddress);
 	}
 
 	public EmailMessage setBccAddress(Set<String> bccAddress) {
-		this.bccAddress = bccAddress;
+		this.bccAddress = copyStringSet(bccAddress);
 		return this;
 	}
 
-	public EmailMessage addBccAddress(String bccAddres) {
-		if (this.bccAddress == null) {
-			this.bccAddress = new HashSet<>();
-		}
-		this.bccAddress.add(bccAddres);
+	public EmailMessage addBccAddress(String bccAddress) {
+		this.bccAddress.add(requireText(bccAddress, "密送人邮件地址不能为空"));
 		return this;
 	}
 
 	public Set<String> getAttachments() {
-		return attachments;
+		return Collections.unmodifiableSet(attachments);
 	}
 
 	public EmailMessage setAttachments(Set<String> attachments) {
-		this.attachments = attachments;
+		this.attachments = copyStringSet(attachments);
 		return this;
 	}
 
 	public EmailMessage addAttachment(String attachment) {
-		if (this.attachments == null) {
-			this.attachments = new HashSet<>();
-		}
-		this.attachments.add(attachment);
+		this.attachments.add(requireText(attachment, "附件 URL 不能为空"));
 		return this;
 	}
 
 	public Set<File> getFiles() {
-		return files;
+		return Collections.unmodifiableSet(files);
 	}
 
 	public EmailMessage setFiles(Set<File> files) {
-		this.files = files;
+		this.files = copyFileSet(files);
 		return this;
 	}
 
 	public EmailMessage addFile(File file) {
-		if (this.files == null) {
-			this.files = new HashSet<>();
-		}
-		this.files.add(file);
+		this.files.add(Objects.requireNonNull(file, "附件文件不能为空"));
 		return this;
 	}
 
@@ -157,8 +158,54 @@ public class EmailMessage {
 	}
 
 	public EmailMessage setContent(String content) {
-		this.content = content;
+		this.content = normalizeNullable(content);
 		return this;
+	}
+
+	public String getTextContent() {
+		return textContent;
+	}
+
+	public EmailMessage setTextContent(String textContent) {
+		this.textContent = normalizeNullable(textContent);
+		return this;
+	}
+
+	private static Set<String> copyStringSet(Set<String> values) {
+		Set<String> result = new LinkedHashSet<>();
+		if (values == null) {
+			return result;
+		}
+		for (String value : values) {
+			result.add(requireText(value, "集合元素不能为空"));
+		}
+		return result;
+	}
+
+	private static Set<File> copyFileSet(Set<File> values) {
+		Set<File> result = new LinkedHashSet<>();
+		if (values == null) {
+			return result;
+		}
+		for (File value : values) {
+			result.add(Objects.requireNonNull(value, "附件文件不能为空"));
+		}
+		return result;
+	}
+
+	private static String requireText(String value, String message) {
+		if (value == null || value.trim().isEmpty()) {
+			throw new IllegalArgumentException(message);
+		}
+		return value.trim();
+	}
+
+	private static String normalizeNullable(String value) {
+		if (value == null) {
+			return null;
+		}
+		String normalized = value.trim();
+		return normalized.isEmpty() ? null : normalized;
 	}
 
 }
